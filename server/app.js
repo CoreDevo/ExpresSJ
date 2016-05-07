@@ -11,6 +11,8 @@ var connections = [];
 
 app.use(bodyParser());
 app.use(cookieParser());
+app.use(express.static(__dirname + '/public'));
+
 
 app.get('/', function (req, res) {
   if (req.cookies.user == null) {
