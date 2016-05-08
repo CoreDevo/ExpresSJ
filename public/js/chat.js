@@ -6,7 +6,7 @@ $(function(){
     var $roomForm = $('#roomForm');
     var $room = $('#room');
     var roomname = 'lobby';
-    var cachedUsername = $.cookie('UserID');
+    var cachedUsername = document.cookie;
     console.log(cachedUsername);
 
     socket.emit('first connect', roomname, cachedUsername);
