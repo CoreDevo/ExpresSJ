@@ -48,7 +48,8 @@ app.post('/login', function (req, res) {
         console.log(" username already exists")
         res.redirect('/login');
     } else {
-        console.log(req.body.name + " cached")res.redirect('/chat');
+        console.log(req.body.name + " cached")
+        res.redirect('/chat');
     }
 });
 
