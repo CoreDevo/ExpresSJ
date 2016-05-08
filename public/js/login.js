@@ -1,4 +1,3 @@
-var socket = io.connect();
 $(document).ready( function() {
     $('#login-button').click( function() {
         var username=$("#username").val();
