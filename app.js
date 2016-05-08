@@ -108,15 +108,9 @@ io.on('connection', function(socket){
         }
     }
 
-    socket.on('send message', function(data, roomname){
-        console.log(data);
-        console.log(roomname);
-        io.to(roomname).emit('new message', {msg: data, username: username});
-    });
-
-    socket.on('Username', function(username){
-        console.log('Socket received user name: ' + username);
-        socket.emit('Username', username);
+    socket.on('send message', function(data, roomname, userID){
+        console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + userID);
+        io.to(roomname).emit('new message', {msg: data, username: userID});
     });
 
     socket.on('disconnect', function(data) {

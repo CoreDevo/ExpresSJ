@@ -1,6 +1,7 @@
 $(document).ready( function() {
     $('#login-button').click( function() {
         var username=$("#username").val();
+        userID = username;
         var path = 'http://' + $(location).attr('host');
         $.ajax({
             type: 'POST',
@@ -10,7 +11,6 @@ $(document).ready( function() {
                 window.location.href = path + '/chat';
             }
         });
-        socket.emit('Username', username);
         return false; // to stop link
     });
 });
