@@ -7,6 +7,7 @@ var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
+var mongo = require('./modules/mongo-service');
 
 var connections = [];
 var room = ['lobby'];
@@ -38,13 +39,13 @@ app.get('/chat', function (req, res) {
     console.log('chat redirecting to login');
 });*/
 
- app.get('/chat', function (req, res) {
-     res.sendFile(path.resolve('public/chat.html'));
- });
+app.get('/chat', function (req, res) {
+	res.sendFile(path.resolve('public/chat.html'));
+});
 
 app.get('/login', function (req, res) {
-    console.log("get login");
-    res.sendFile(path.resolve('public/login.html'));
+	console.log("get login");
+	res.sendFile(path.resolve('public/login.html'));
 });
 
 app.post('/login', function (req, res) {
@@ -97,6 +98,13 @@ io.on('connection', function(socket){
         var currentNumber = users[room.indexOf(roomname)];
         console.log(socket.user + " joined into Room: " + roomname)
         io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
+	    mongo.getRecentMessage(roomname, function(succeed, msgs) {
+		    if(succeed) {
+			    msgs.forEach(function(singleMsg) {
+				    socket.emit('new message', {msg: singleMsg.message, username: singleMsg.username});
+			    });
+		    }
+	    })
     });
 
     function leaveRoom(socket){
@@ -123,7 +131,11 @@ io.on('connection', function(socket){
 
     socket.on('send message', function(data, roomname){
         console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
-        io.to(roomname).emit('new message', {msg: data, username: socket.user});
+	    mongo.storeNewMessage(roomname, socket.user, data, function(succeed) {
+		    if(succeed) {
+			    io.to(roomname).emit('new message', {msg: data, username: socket.user});
+		    }
+	    })
     });
 
     socket.on('disconnect', function(data) {
@@ -133,10 +145,10 @@ io.on('connection', function(socket){
 });
 
 app.use(function(req, res){
-    console.log('someone just viewed 404 page');
-    res.sendFile(path.resolve('public/notFound.html'));
+	console.log('someone just viewed 404 page');
+	res.sendFile(path.resolve('public/notFound.html'));
 });
 
 server.listen(3000, function(){
-    console.log('Started');
+	console.log('Started');
 });
