@@ -39,7 +39,6 @@ app.get('/chat', function (req, res) {
 });*/
 
  app.get('/chat', function (req, res) {
-     console.log("chat begin, " + req.body.name);
      res.sendFile(path.resolve('public/chat.html'));
  });
 
