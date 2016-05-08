@@ -52,8 +52,12 @@ app.get('/login', function (req, res) {
     res.sendFile(path.resolve('public/login.html'));
 });
 
+var username;
+
 app.post('/login', function (req, res) {
-    console.log("req body name: "+req.body.name)
+    username = req.body.name;
+    console.log("req body name: " + username)
+    //TODO: check if username exists
     if (users[req.body.name]) {
         //if exists
         console.log(" username already exists")
@@ -70,9 +74,10 @@ io.on('connection', function(socket){
     console.log('connected %s', connections.length);
 
     socket.on('first connect', function(roomname) {
-        console.log('someone just came in, first connect in lobby');
+        // console.log('someone just came in, first connect in lobby');
         socket.join(roomname);
         socket.room = roomname;
+        console.log(username + " joined into Room: " + roomname)
         users[0]++;
     });
 
@@ -92,8 +97,8 @@ io.on('connection', function(socket){
         socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
         var currentNumber = users[room.indexOf(roomname)];
-        console.log('joined room ' + roomname);
-        io.to(roomname).emit('new join', roomname, currentNumber);
+        console.log(username + " joined into Room: " + roomname)
+        io.to(roomname).emit('new join', username, roomname, currentNumber);
     });
 
     function leaveRoom(socket){
@@ -107,14 +112,14 @@ io.on('connection', function(socket){
             console.log('Room destroyed');
         } else {
             users[index]--;
-            io.to(roomname).emit('new leave', roomname, users[index]);
+            io.to(roomname).emit('new leave', username, roomname, users[index]);
         }
     }
 
     socket.on('send message', function(data, roomname){
         console.log(data);
         console.log(roomname);
-        io.to(roomname).emit('new message', {msg: data});
+        io.to(roomname).emit('new message', {msg: data, username: username});
     });
 
     socket.on('disconnect', function(data) {
