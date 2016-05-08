@@ -1,6 +1,12 @@
 $(document).ready( function() {
     $('#login-button').click( function() {
         var username=$("#username").val();
+
+        if (username.indexOf('=') != -1) {
+            alert('no = pls');
+            return;
+        }
+
         var path = 'http://' + $(location).attr('host');
         $.ajax({
             type: 'POST',

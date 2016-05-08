@@ -65,7 +65,7 @@ io.on('connection', function(socket){
     socket.on('first connect', function(roomname, rawUsername) {
         //TODO: Temp solotion for cookie username, need better solution
         var splitArray = rawUsername.split(';');
-        var username = splitArray[splitArray.length-1].substring(8);
+        var username = splitArray[splitArray.length-1].split('=')[1];
         console.log('username is ' + username);
         socket.join(roomname);
         socket.room = roomname;
