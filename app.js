@@ -64,7 +64,10 @@ io.on('connection', function(socket){
     });
 
     socket.on('enter room', function(roomname){
-        if(roomname == socket.room){}
+        if(roomname == socket.room){
+            socket.emit('new message', { msg: 'You are already in this room'});
+            return;
+        }
         leaveRoom(socket);
         if (room.indexOf(roomname) == -1){
             room.push(roomname);
@@ -73,6 +76,7 @@ io.on('connection', function(socket){
         }
         socket.room = roomname;
         socket.join(roomname);
+        socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
         var currentNumber = users[room.indexOf(roomname)];
         console.log('joined room ' + roomname);
@@ -108,7 +112,7 @@ io.on('connection', function(socket){
 
 app.use(function(req, res){
     console.log('someone just viewed 404 page');
-    res.sendFile(__dirname + notFound);
+    res.sendFile(path.resolve('public/notFound.html'));
 });
 
 server.listen(3000, function(){

@@ -14,7 +14,6 @@ $(function(){
         console.log('Room Button Clicked');
         roomname = $room.val();
         socket.emit('enter room', roomname);
-        inRoom();
     });
 
     $messageForm.submit(function(e){
@@ -36,6 +35,11 @@ $(function(){
     socket.on('new leave', function(roomname, currentNumber){
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         $chat.append('<div class="well">Someone left, Currently ' + currentNumber + '</div>');
+    });
+    
+    socket.on('entered room', function(roomname) {
+        console.log('Entered new room: ' + roomname);
+        inRoom();
     });
 
     function inRoom(){
