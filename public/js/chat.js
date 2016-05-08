@@ -6,6 +6,8 @@ $(function(){
     var $roomForm = $('#roomForm');
     var $room = $('#room');
     var roomname = 'lobby';
+    var cachedUsername = document.cookie
+    console.log(cachedUsername);
 
     socket.emit('first connect', roomname);
 
@@ -24,19 +26,23 @@ $(function(){
     });
 
     socket.on('new message', function(data){
-        $chat.append('<div class="well">' + data.msg + '</div>');
+        $chat.append('<div class="well">'+ data.username +': ' + data.msg + '</div>');
     });
 
-    socket.on('new join', function(roomname, currentNumber){
+    socket.on('new join', function(username, roomname, currentNumber){
         console.log('In ' + roomname + ', Currently ' + currentNumber);
+        //for testing:
+        $chat.append('<div class="well">' + username + ' joined' + '</div>');
         $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
     });
 
     socket.on('new leave', function(roomname, currentNumber){
         console.log('In ' + roomname + ', Currently ' + currentNumber);
+        //for testing:
+        $chat.append('<div class="well">' + username + ' left' + '</div>');
         $chat.append('<div class="well">Someone left, Currently ' + currentNumber + '</div>');
     });
-    
+
     socket.on('entered room', function(roomname) {
         console.log('Entered new room: ' + roomname);
         inRoom();
