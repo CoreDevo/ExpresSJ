@@ -11,6 +11,7 @@ var path = require('path');
 var connections = [];
 var room = ['lobby'];
 var users = [0];
+var roomUsers = {lobby:[]};
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -30,22 +31,17 @@ app.get('/', function (req, res) {
 
 
 //Temp solution for NoName user gettin chat
-//TODO: add friendly alert maybe?
+//TODO: add friendly alert maybe? NOT NOW!
+/*JUST DONT VISIT CHAT DIRECTLY PLS.
 app.get('/chat', function (req, res) {
-    if (req.cookies.user == null) {
-        //no cookie stored, proceed to login page
-        res.redirect('/login');
-    } else {
-        //direct cached user to chat room
-        res.sendFile(path.resolve('public/chat.html'));
-    }
-});
+    res.redirect('/login');
+    console.log('chat redirecting to login');
+});*/
 
-//ggwp:
-// app.get('/chat', function (req, res) {
-//     console.log("chat begin");
-//     res.sendFile(path.resolve('public/chat.html'));
-// });
+ app.get('/chat', function (req, res) {
+     console.log("chat begin");
+     res.sendFile(path.resolve('public/chat.html'));
+ });
 
 app.get('/login', function (req, res) {
     console.log("get login");
@@ -55,18 +51,14 @@ app.get('/login', function (req, res) {
 var username;
 
 app.post('/login', function (req, res) {
-    username = req.body.name;
-    console.log("req body name: " + username)
+    //username = req.body.name;
+    console.log("new user name: " + username)
     //TODO: check if username exists
-    if (users[req.body.name]) {
-        //if exists
-        console.log(" username already exists")
-        res.redirect('/login');
-    } else {
-        console.log(req.body.name + " cached");
-        res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
-        res.redirect('/chat');
-    }
+    //console.log(req.body.name + " cached");
+    //res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
+    res.redirect('/chat');
+    roomUsers['lobby'].push(req.body.name);
+    console.log('User in lobby: ' + roomUsers);
 });
 
 io.on('connection', function(socket){
@@ -120,6 +112,11 @@ io.on('connection', function(socket){
         console.log(data);
         console.log(roomname);
         io.to(roomname).emit('new message', {msg: data, username: username});
+    });
+
+    socket.on('Username', function(username){
+        console.log('Socket received user name: ' + username);
+        socket.emit('Username', username);
     });
 
     socket.on('disconnect', function(data) {
