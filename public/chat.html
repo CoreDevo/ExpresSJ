@@ -13,24 +13,25 @@
     </style>
 </head>
 <body>
-<form class="col-100" id="roomForm">
-    <div class="form-group">
-        <label for="room">Room:</label>
-        <textarea class="form-control" id="room"></textarea>
-        <br>
-        <input type="submit" class="btn btn-primary" value="Enter Room" />
-    </div>
-</form>
+    <form class="col-100" id="roomForm">
+        <div class="form-group">
+            <label for="room">Room:</label>
+            <textarea class="form-control" id="room"></textarea>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Enter Room" />
+        </div>
+    </form>
 
-<div class="chat" id="chat"></div>
-<form id="messageForm">
-    <div class="form-group">
-        <textarea class="form-control" id="message"></textarea>
-        <br />
-        <input type="submit" class="btn btn-primary" value="Send Message" />
-    </div>
-</form>
+    <div class="chat" id="chat"></div>
+    <form id="messageForm">
+        <div class="form-group">
+            <textarea class="form-control" id="message"></textarea>
+            <br />
+            <input type="submit" class="btn btn-primary" value="Send Message" />
+        </div>
+    </form>
 
-<script src="js/chat.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/socket.js"></script>
 </body>
 </html>

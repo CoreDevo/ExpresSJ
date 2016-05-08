@@ -6,10 +6,10 @@ $(function(){
     var $roomForm = $('#roomForm');
     var $room = $('#room');
     var roomname = 'lobby';
-    var cachedUsername = document.cookie
+    var cachedUsername = document.cookie;
     console.log(cachedUsername);
 
-    socket.emit('first connect', roomname);
+    socket.emit('first connect', roomname, cachedUsername);
 
     $roomForm.submit(function(e){
         e.preventDefault();

@@ -7,10 +7,12 @@ var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
+var mongo = require('./modules/mongo-service');
 
 var connections = [];
 var room = ['lobby'];
 var users = [0];
+var roomUsers = {lobby:[]};
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -30,53 +32,45 @@ app.get('/', function (req, res) {
 
 
 //Temp solution for NoName user gettin chat
-//TODO: add friendly alert maybe?
+//TODO: add friendly alert maybe? NOT NOW!
+/*JUST DONT VISIT CHAT DIRECTLY PLS.
 app.get('/chat', function (req, res) {
-    if (req.cookies.user == null) {
-        //no cookie stored, proceed to login page
-        res.redirect('/login');
-    } else {
-        //direct cached user to chat room
-        res.sendFile(path.resolve('public/chat.html'));
-    }
-});
+    res.redirect('/login');
+    console.log('chat redirecting to login');
+});*/
 
-//ggwp:
-// app.get('/chat', function (req, res) {
-//     console.log("chat begin");
-//     res.sendFile(path.resolve('public/chat.html'));
-// });
+app.get('/chat', function (req, res) {
+	res.sendFile(path.resolve('public/chat.html'));
+});
 
 app.get('/login', function (req, res) {
-    console.log("get login");
-    res.sendFile(path.resolve('public/login.html'));
+	console.log("get login");
+	res.sendFile(path.resolve('public/login.html'));
 });
 
-var username;
-
 app.post('/login', function (req, res) {
-    username = req.body.name;
-    console.log("req body name: " + username)
+    var username = req.body.name;
+    console.log("new user name: " + username)
     //TODO: check if username exists
-    if (users[req.body.name]) {
-        //if exists
-        console.log(" username already exists")
-        res.redirect('/login');
-    } else {
-        console.log(req.body.name + " cached");
-        res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
-        res.redirect('/chat');
-    }
+    roomUsers['lobby'].push(username);
+    console.log('User in lobby: ' + roomUsers['lobby']);
+    console.log(req.body.name + " cached");
+    res.cookie("userID", req.body.name, {maxAge: 1000*60*60*24*30});
+    res.redirect('/chat');
 });
 
 io.on('connection', function(socket){
     connections.push(socket);
     console.log('connected %s', connections.length);
 
-    socket.on('first connect', function(roomname) {
-        // console.log('someone just came in, first connect in lobby');
+    socket.on('first connect', function(roomname, rawUsername) {
+        //TODO: Temp solotion for cookie username, need better solution
+        var splitArray = rawUsername.split(';');
+        var username = splitArray[splitArray.length-1].split('=')[1];
+        console.log('username is ' + username);
         socket.join(roomname);
         socket.room = roomname;
+        socket.user = username;
         console.log(username + " joined into Room: " + roomname)
         users[0]++;
     });
@@ -90,25 +84,44 @@ io.on('connection', function(socket){
         if (room.indexOf(roomname) == -1){
             room.push(roomname);
             users.push(0);
-            console.log(room[room.length-1] + ' Created');
+            roomUsers[roomname] = [];
+            console.log(room[room.length-1] + ' room: Created');
         }
         socket.room = roomname;
         socket.join(roomname);
         socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
+
+        roomUsers[roomname].push(socket.user);
+        console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
+
         var currentNumber = users[room.indexOf(roomname)];
-        console.log(username + " joined into Room: " + roomname)
-        io.to(roomname).emit('new join', username, roomname, currentNumber);
+        console.log(socket.user + " joined into Room: " + roomname)
+        io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
+	    mongo.getRecentMessage(roomname, function(succeed, msgs) {
+		    if(succeed) {
+			    msgs.forEach(function(singleMsg) {
+				    socket.emit('new message', {msg: singleMsg.message, username: singleMsg.username});
+			    });
+		    }
+	    })
     });
 
     function leaveRoom(socket){
         console.log('User is leaving ' + socket.room);
         var roomname = socket.room;
+        var username = socket.user;
         socket.leave(socket.room);
+
+        //TODO: Enhance maybe
+        roomUsers[roomname].splice(roomUsers[roomname].indexOf(username), 1);
+        console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
+
         var index = room.indexOf(roomname);
         if (users[index] == 1 && index != 0){
             users.splice(index, 1);
             room.splice(index, 1);
+            delete roomUsers[roomname];
             console.log('Room destroyed');
         } else {
             users[index]--;
@@ -117,9 +130,12 @@ io.on('connection', function(socket){
     }
 
     socket.on('send message', function(data, roomname){
-        console.log(data);
-        console.log(roomname);
-        io.to(roomname).emit('new message', {msg: data, username: username});
+        console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
+	    mongo.storeNewMessage(roomname, socket.user, data, function(succeed) {
+		    if(succeed) {
+			    io.to(roomname).emit('new message', {msg: data, username: socket.user});
+		    }
+	    })
     });
 
     socket.on('disconnect', function(data) {
@@ -129,10 +145,10 @@ io.on('connection', function(socket){
 });
 
 app.use(function(req, res){
-    console.log('someone just viewed 404 page');
-    res.sendFile(path.resolve('public/notFound.html'));
+	console.log('someone just viewed 404 page');
+	res.sendFile(path.resolve('public/notFound.html'));
 });
 
 server.listen(3000, function(){
-    console.log('Started');
+	console.log('Started');
 });
