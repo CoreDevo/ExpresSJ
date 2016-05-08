@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var index = '/index.html';
+var notFound = '/notFound.html';
 var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -9,11 +10,12 @@ var path = require('path');
 
 var users = [];
 var connections = [];
+var room = ['lobby'];
+var users = [0];
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cookieParser());
-// console.log(path.join(__dirname + '/public'))
 app.use(express.static(path.join(__dirname + '/public')));
 
 app.get('/', function (req, res) {
@@ -52,18 +54,62 @@ app.post('/login', function (req, res) {
 });
 
 io.on('connection', function(socket){
-   connections.push(socket);
-  //  console.log('connected %s', connections.length);
+    connections.push(socket);
+    console.log('connected %s', connections.length);
 
-   socket.on('disconnect', function(data) {
-       connections.splice(connections.indexOf(socket), 1);
-      //  console.log('disconnected %s', connections.length);
-   });
+    socket.on('first connect', function(roomname) {
+        console.log('someone just came in, first connect in lobby');
+        socket.join(roomname);
+        socket.room = roomname;
+        users[0]++;
+    });
 
-   socket.on('send message', function(data){
-       console.log(data);
-       io.emit('new message', {msg:data});
-   });
+    socket.on('enter room', function(roomname){
+        if(roomname == socket.room){}
+        leaveRoom(socket);
+        if (room.indexOf(roomname) == -1){
+            room.push(roomname);
+            users.push(0);
+            console.log(room[room.length-1] + ' Created');
+        }
+        socket.room = roomname;
+        socket.join(roomname);
+        users[room.indexOf(roomname)]++;
+        var currentNumber = users[room.indexOf(roomname)];
+        console.log('joined room ' + roomname);
+        io.to(roomname).emit('new join', roomname, currentNumber);
+    });
+
+    function leaveRoom(socket){
+        console.log('User is leaving ' + socket.room);
+        var roomname = socket.room;
+        socket.leave(socket.room);
+        var index = room.indexOf(roomname);
+        if (users[index] == 1 && index != 0){
+            users.splice(index, 1);
+            room.splice(index, 1);
+            console.log('Room destroyed');
+        } else {
+            users[index]--;
+            io.to(roomname).emit('new leave', roomname, users[index]);
+        }
+    }
+
+    socket.on('send message', function(data, roomname){
+        console.log(data);
+        console.log(roomname);
+        io.to(roomname).emit('new message', {msg: data});
+    });
+
+    socket.on('disconnect', function(data) {
+        connections.splice(connections.indexOf(socket), 1);
+        console.log('disconnected %s', connections.length);
+    });
+});
+
+app.use(function(req, res){
+    console.log('someone just viewed 404 page');
+    res.sendFile(__dirname + notFound);
 });
 
 server.listen(3000, function(){
