@@ -36,7 +36,7 @@ $(function(){
         $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
     });
 
-    socket.on('new leave', function(roomname, currentNumber){
+    socket.on('new leave', function(username, roomname, currentNumber){
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         //for testing:
         $chat.append('<div class="well">' + username + ' left' + '</div>');
