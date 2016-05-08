@@ -24,8 +24,20 @@ app.get('/', function (req, res) {
   } else {
     //direct cached user to chat room
     res.redirect('/chat');
-
   }
+});
+
+
+//Temp solution for NoName user gettin chat
+//TODO: add friendly alert maybe?
+app.get('/chat', function (req, res) {
+    if (req.cookies.user == null) {
+        //no cookie stored, proceed to login page
+        res.redirect('/login');
+    } else {
+        //direct cached user to chat room
+        res.redirect('/chat');
+    }
 });
 
 //TO-DO: 为啥不 redirect ？目前用 jquery 办法临时解决，it works at least
