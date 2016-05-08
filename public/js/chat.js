@@ -6,6 +6,8 @@ $(function(){
     var $roomForm = $('#roomForm');
     var $room = $('#room');
     var roomname = 'lobby';
+    var cachedUsername = document.cookie
+    console.log(cachedUsername);
 
     socket.emit('first connect', roomname);
 
@@ -36,7 +38,7 @@ $(function(){
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         $chat.append('<div class="well">Someone left, Currently ' + currentNumber + '</div>');
     });
-    
+
     socket.on('entered room', function(roomname) {
         console.log('Entered new room: ' + roomname);
         inRoom();
