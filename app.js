@@ -84,13 +84,16 @@ io.on('connection', function(socket){
             room.push(roomname);
             users.push(0);
             roomUsers[roomname] = [];
-            console.log(room[room.length-1] + ' Created');
+            console.log(room[room.length-1] + ' room: Created');
         }
         socket.room = roomname;
         socket.join(roomname);
         socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
+
         roomUsers[roomname].push(socket.user);
+        console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
+
         var currentNumber = users[room.indexOf(roomname)];
         console.log(socket.user + " joined into Room: " + roomname)
         io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
@@ -104,6 +107,7 @@ io.on('connection', function(socket){
 
         //TODO: Enhance maybe
         roomUsers[roomname].splice(roomUsers[roomname].indexOf(username), 1);
+        console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
 
         var index = room.indexOf(roomname);
         if (users[index] == 1 && index != 0){

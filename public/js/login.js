@@ -2,8 +2,8 @@ $(document).ready( function() {
     $('#login-button').click( function() {
         var username=$("#username").val();
 
-        if (username.indexOf('=') != -1) {
-            alert('no = pls');
+        if (username.indexOf('=') != -1 || username.indexOf(' ') != -1) {
+            alert('no = and space pls');
             return;
         }
 
