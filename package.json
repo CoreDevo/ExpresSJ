@@ -6,6 +6,7 @@
         "socket.io": "1.4.6",
         "body-parser": "1.15.1",
         "cookie-parser": "1.4.1",
-	"js-cookie": "2.1.1"
+        "js-cookie": "2.1.1",
+        "mongodb": "2.1.18 "
     }
 }
