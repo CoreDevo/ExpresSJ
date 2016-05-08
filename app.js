@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 
-var users = [];
 var connections = [];
 var room = ['lobby'];
 var users = [0];
@@ -36,7 +35,7 @@ app.get('/chat', function (req, res) {
 });
 
 app.get('/login', function (req, res) {
-    console.log("get login")
+    console.log("get login");
     res.sendFile(path.resolve('public/login.html'));
 });
 
