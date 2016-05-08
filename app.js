@@ -32,7 +32,7 @@ app.get('/', function (req, res) {
 //TO-DO: 为啥不 redirect ？目前用 jquery 办法临时解决，it works at least
 app.get('/chat', function (req, res) {
     console.log("chat begin");
-    //res.sendFile(path.resolve('public/chat.html'));// im speaking about this line
+    res.sendFile(path.resolve('public/chat.html')); // im speaking about this line
 });
 
 app.get('/login', function (req, res) {
