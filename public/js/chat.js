@@ -4,6 +4,9 @@ $(function(){
     var $message = $('#message');
     var $chat = $('#chat');
 
+    //get cookie val
+
+    console.log(document.cookie)
     $messageForm.submit(function(e){
         e.preventDefault();
         console.log('working');
