@@ -31,26 +31,25 @@ app.get('/', function (req, res) {
 
 //TO-DO: 为啥不 redirect ？目前用 jquery 办法临时解决，it works at least
 app.get('/chat', function (req, res) {
-  console.log("chat begin")
-  res.sendFile(path.resolve('public/chat.html'));// im speaking about this line
+    console.log("chat begin");
+    //res.sendFile(path.resolve('public/chat.html'));// im speaking about this line
 });
 
 app.get('/login', function (req, res) {
-  console.log("get login")
-  res.sendFile(path.resolve('public/login.html'));
+    console.log("get login")
+    res.sendFile(path.resolve('public/login.html'));
 });
 
 app.post('/login', function (req, res) {
-  console.log("req body name: "+req.body.name)
-  res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
-  if (users[req.body.name]) {
-    //if exists
-    console.log(" username already exists")
-    res.redirect('/login');
-  } else {
-    console.log(req.body.name + " cached")
-    res.redirect('/chat');
-  }
+    console.log("req body name: "+req.body.name)
+    res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
+    if (users[req.body.name]) {
+        //if exists
+        console.log(" username already exists")
+        res.redirect('/login');
+    } else {
+        console.log(req.body.name + " cached")res.redirect('/chat');
+    }
 });
 
 io.on('connection', function(socket){
@@ -113,5 +112,5 @@ app.use(function(req, res){
 });
 
 server.listen(3000, function(){
-   console.log('Started');
+    console.log('Started');
 });
