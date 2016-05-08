@@ -41,13 +41,13 @@ app.get('/login', function (req, res) {
 
 app.post('/login', function (req, res) {
     console.log("req body name: "+req.body.name)
-    res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
     if (users[req.body.name]) {
         //if exists
         console.log(" username already exists");
         res.redirect('/login');
     } else {
         console.log(req.body.name + " cached");
+        res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
         res.redirect('/chat');
     }
 });
