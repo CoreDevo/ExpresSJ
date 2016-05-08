@@ -62,7 +62,9 @@ io.on('connection', function(socket){
     connections.push(socket);
     console.log('connected %s', connections.length);
 
-    socket.on('first connect', function(roomname, username) {
+    socket.on('first connect', function(roomname, rawUsername) {
+        //TODO: Temp solotion for cookie username, need better solution
+        var username = rawUsername.substring(7);
         console.log('username is ' + username);
         socket.join(roomname);
         socket.room = roomname;
