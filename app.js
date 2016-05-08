@@ -64,7 +64,7 @@ io.on('connection', function(socket){
     console.log('connected %s', connections.length);
 
     socket.on('first connect', function(roomname, username) {
-        // console.log('someone just came in, first connect in lobby');
+        console.log('username is ' + username);
         socket.join(roomname);
         socket.room = roomname;
         socket.user = username;
@@ -89,7 +89,7 @@ io.on('connection', function(socket){
         users[room.indexOf(roomname)]++;
         var currentNumber = users[room.indexOf(roomname)];
         console.log(socket.user + " joined into Room: " + roomname)
-        io.to(roomname).emit('new join', username, roomname, currentNumber);
+        io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
     });
 
     function leaveRoom(socket){
