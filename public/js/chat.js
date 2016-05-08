@@ -1,14 +1,15 @@
 $(function(){
+    var socket = io.connect();
     var $messageForm = $('#messageForm');
     var $message = $('#message');
     var $chat = $('#chat');
     var $roomForm = $('#roomForm');
     var $room = $('#room');
     var roomname = 'lobby';
-    //var cachedUsername = document.cookie;
-    //console.log(cachedUsername);
+    var cachedUsername = $.cookie('UserID');
+    console.log(cachedUsername);
 
-    socket.emit('first connect', roomname);
+    socket.emit('first connect', roomname, cachedUsername);
 
     $roomForm.submit(function(e){
         e.preventDefault();
@@ -20,7 +21,7 @@ $(function(){
     $messageForm.submit(function(e){
         e.preventDefault();
         console.log('working');
-        socket.emit('send message', $message.val(), roomname, UserID);
+        socket.emit('send message', $message.val(), roomname);
         $message.val('');
     });
 

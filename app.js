@@ -39,7 +39,7 @@ app.get('/chat', function (req, res) {
 });*/
 
  app.get('/chat', function (req, res) {
-     console.log("chat begin");
+     console.log("chat begin, " + req.body.name);
      res.sendFile(path.resolve('public/chat.html'));
  });
 
@@ -48,27 +48,26 @@ app.get('/login', function (req, res) {
     res.sendFile(path.resolve('public/login.html'));
 });
 
-var username;
-
 app.post('/login', function (req, res) {
-    //username = req.body.name;
+    var username = req.body.name;
     console.log("new user name: " + username)
     //TODO: check if username exists
-    //console.log(req.body.name + " cached");
-    //res.cookie("user", req.body.name, {maxAge: 1000*60*60*24*30});
+    roomUsers['lobby'].push(username);
+    console.log('User in lobby: ' + roomUsers['lobby']);
+    console.log(req.body.name + " cached");
+    res.cookie("userID", req.body.name, {maxAge: 1000*60*60*24*30});
     res.redirect('/chat');
-    roomUsers['lobby'].push(req.body.name);
-    console.log('User in lobby: ' + roomUsers);
 });
 
 io.on('connection', function(socket){
     connections.push(socket);
     console.log('connected %s', connections.length);
 
-    socket.on('first connect', function(roomname) {
+    socket.on('first connect', function(roomname, username) {
         // console.log('someone just came in, first connect in lobby');
         socket.join(roomname);
         socket.room = roomname;
+        socket.user = username;
         console.log(username + " joined into Room: " + roomname)
         users[0]++;
     });
@@ -89,13 +88,14 @@ io.on('connection', function(socket){
         socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
         var currentNumber = users[room.indexOf(roomname)];
-        console.log(username + " joined into Room: " + roomname)
+        console.log(socket.user + " joined into Room: " + roomname)
         io.to(roomname).emit('new join', username, roomname, currentNumber);
     });
 
     function leaveRoom(socket){
         console.log('User is leaving ' + socket.room);
         var roomname = socket.room;
+        var username = socket.user;
         socket.leave(socket.room);
         var index = room.indexOf(roomname);
         if (users[index] == 1 && index != 0){
@@ -108,9 +108,9 @@ io.on('connection', function(socket){
         }
     }
 
-    socket.on('send message', function(data, roomname, userID){
-        console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + userID);
-        io.to(roomname).emit('new message', {msg: data, username: userID});
+    socket.on('send message', function(data, roomname){
+        console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
+        io.to(roomname).emit('new message', {msg: data, username: socket.user});
     });
 
     socket.on('disconnect', function(data) {

@@ -1,7 +1,6 @@
 $(document).ready( function() {
     $('#login-button').click( function() {
         var username=$("#username").val();
-        userID = username;
         var path = 'http://' + $(location).attr('host');
         $.ajax({
             type: 'POST',
