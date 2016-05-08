@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').Server(app);
 var index = '/index.html';
 var io = require('socket.io')(server);
@@ -11,22 +12,23 @@ var connections = [];
 
 app.use(bodyParser());
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
-
+console.log(path.join(__dirname + '/public')))
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.get('/', function (req, res) {
+  console.log("a visitor came")
   if (req.cookies.user == null) {
     //no cookie stored, proceed to login page
     res.redirect('/login');
   } else {
     //direct cached user to chat room
-    res.sendFile(path.resolve('../client/chat.html'));
+    res.sendFile(path.resolve('public/chat.html'));
   }
 });
 
 app.get('/login', function (req, res) {
   console.log("get login")
-  res.sendFile(path.resolve('../client/login.html'));
+  res.sendFile(path.resolve('public/login.html'));
 });
 app.post('/login', function (req, res) {
   if (users[req.body.name]) {
