@@ -41,7 +41,7 @@
               <form id="messageForm" class="answer-add">
                   <input type="text" id="message" class="form-control" placeholder="Write a message here">
                   <span class="answer-btn answer-btn-2">
-                    <input type="submit" value=""/>
+                    <input lass="answer-btn answer-btn-2" type="submit" value="" style="height:38px; width:40px"/>
                   </span>
               </form>
             </div>
@@ -52,15 +52,16 @@
 
     <form class="answer-add" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
       <label for="room">Room:</label>
-      <input type="text" id="room" class="form-control" placeholder="Enter a room name" style="margin: 10px 0 10px 0" >
-      <input type="submit" class="btn btn-primary" value="Enter Room" />
-       </form>
+      <input type="text" id="room" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
+      <input type="submit" class="btn btn-primary" value="Enter Room" autocomplete="off">
+    </form>
 
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="js/chat.js"></script>
 <script type="text/javascript">
 	$(function(){
     $(".chat").niceScroll();
+    $('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
 })
 </script>
 </body>
