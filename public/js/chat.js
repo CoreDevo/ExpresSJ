@@ -8,7 +8,8 @@ $(function(){
     var roomname = 'lobby';
     var $onlineUserList = $('#chat-users');
     var cachedUsername = document.cookie;
-    var slicedUsername = cachedUsername.slice(16,50)
+    var slicedUsername = cachedUsername.split("=")[2];
+    // console.log(slicedUsername)
 
     socket.emit('first connect', roomname, cachedUsername);
 
