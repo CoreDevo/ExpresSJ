@@ -97,6 +97,7 @@ io.on('connection', function(socket){
 
         var currentNumber = users[room.indexOf(roomname)];
         console.log(socket.user + " joined into Room: " + roomname)
+        //TODO: emmit online user list array as well
         io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
 	    mongo.getRecentMessage(roomname, function(succeed, msgs) {
 		    if(succeed) {
