@@ -187,12 +187,8 @@ clear: both;
 position: relative;
 margin: 20px -20px -20px;
 padding: 20px;
-<<<<<<< HEAD
 /*send message bar color*/
 background: #7266ba;
-=======
-background: #46be8a;
->>>>>>> CoreDevo/master
 }
 .chat-body .answer-add input {
 border: none;
