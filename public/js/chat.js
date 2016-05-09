@@ -8,7 +8,7 @@ $(function(){
     var roomname = 'lobby';
     var $onlineUserList = $('#chat-users');
     var cachedUsername = document.cookie;
-    var slicedUsername = cachedUsername.split("=")[2];
+    var slicedUsername = cachedUsername.split("=")[1];
     // console.log(slicedUsername)
 
     socket.emit('first connect', roomname, cachedUsername);
@@ -30,7 +30,7 @@ $(function(){
     socket.on('connect', function(){
       console.log("first connect")
       $onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
-      //TODO: load online user list
+      //TODO: load online user list in LOBBY
     });
 
     socket.on('new message', function(data){
