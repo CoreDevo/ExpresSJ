@@ -30,11 +30,13 @@ $(function(){
     socket.on('connect', function(){
       console.log("first connect")
       $onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
+      //TODO: load online user list
     });
 
     socket.on('new message', function(data){
       //differentiate sent and received messages
       //TODO: sent time. eg. 5 mins ago
+      console.log(data)
       var direction;
         if(slicedUsername == data.username){
           //sent by current user
@@ -46,11 +48,12 @@ $(function(){
         // console.log(direction);
         //NOTE: This is da fkiing ES6 feature, compatibility should be considered
         // $chat.append('<div class="answer ${direction}"><div class="avatar"><img src="img/avatar-${direction}.jpg" alt="User name"></div><div class="name">${cachedUsername}</div><div class="text">${data.msg}</div><div class="time">1989年年初的时候</div></div>');
-        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="text">' + data.msg + '</div><div class="time">Just now</div></div>');
+        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text">' + data.msg + '</div><div class="time">Just now</div></div>');
 
     });
 
     socket.on('new join', function(username, roomname, currentNumber){
+        console.log(username + " joined");
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         //TODO: add number of current user to UI
         $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
