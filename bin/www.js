@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('DatabaseTest:server');
+var debug = require('debug')('ExpresSJ:server');
 var http = require('http');
 var socket = require('../modules/socket-service');
 
