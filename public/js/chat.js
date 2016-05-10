@@ -8,7 +8,7 @@ $(function(){
     var roomname = 'lobby';
     var $onlineUserList = $('#chat-users');
     var cachedUsername = document.cookie;
-    var slicedUsername = cachedUsername.split("=")[1];
+    var slicedUsername = parseCookies(cachedUsername)["userID"];
     var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
 
     // console.log(slicedUsername)
@@ -114,4 +114,12 @@ $(function(){
         return parsedMessage;
     }
 
+    function parseCookies(rawCookies) {
+        var cookies = {};
+        rawCookies.split(';').forEach(function(element) {
+            var pair = element.split('=');
+            cookies[pair[0].trim()] = pair[1].trim();
+        });
+        return cookies;
+    };
 });
