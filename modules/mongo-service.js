@@ -25,7 +25,7 @@ var storeNewMessage = function(roomName, username, msg, callback) {
 			}
 		});
 	});
-}
+};
 exports.storeNewMessage = storeNewMessage;
 
 var getRecentMessage = function(roomName, callback) {
@@ -55,7 +55,7 @@ var createPrivateRoom = function(roomName, password, callback) {
 		}
 		db.listCollections({name: roomName}).toArray(function (err, items) {
 			if(items.length !== 0) {
-				callback("Room Name already exist", false)
+				callback("Room Name already exist", false);
 				return;
 			}
 		});
