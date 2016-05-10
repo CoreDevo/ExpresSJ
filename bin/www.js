@@ -5,8 +5,9 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('DatabaseTest:server');
+var debug = require('debug')('ExpresSJ:server');
 var http = require('http');
+var socket = require('../modules/socket-service');
 
 /**
  * Get port from environment and store in Express.
@@ -22,10 +23,14 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Attach socket server
  */
 
-require('../modules/socket-service')(server);
+socket(server);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
 
 server.listen(port);
 server.on('error', onError);
