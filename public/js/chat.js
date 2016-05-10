@@ -70,7 +70,7 @@ $(function(){
         //TODO: add number of current user to UI
         $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
 
-        $onlineUserList.append('<div id="' + username + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + username + '</div></div></div>');
+        //$onlineUserList.append('<div id="' + username + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + username + '</div></div></div>');
     });
 
     socket.on('new leave', function(username, roomname, currentNumber){
