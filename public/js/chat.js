@@ -103,9 +103,9 @@ $(function(){
     }
 
     function parseEmoji(message){
-        parsedMessage = message;
-        for (index = 0; index < emojiList.length; ++index)  {
-            key = emojiList[index];
+        var parsedMessage = message;
+        for (var index = 0; index < emojiList.length; ++index)  {
+            var key = emojiList[index];
             parsedMessage=parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
         }
         return parsedMessage;
