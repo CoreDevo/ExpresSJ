@@ -71,7 +71,8 @@ io.on('connection', function(socket){
         socket.join(roomname);
         socket.room = roomname;
         socket.user = username;
-        console.log(username + " joined into Room: " + roomname)
+        console.log(username + " joined into Room: " + roomname);
+        io.to(roomname).emit('online gods', roomUsers[roomname]);
         users[0]++;
     });
 
@@ -93,6 +94,7 @@ io.on('connection', function(socket){
         users[room.indexOf(roomname)]++;
 
         roomUsers[roomname].push(socket.user);
+        io.to(roomname).emit('online gods', roomUsers[roomname]);
         console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
 
         var currentNumber = users[room.indexOf(roomname)];
@@ -126,6 +128,7 @@ io.on('connection', function(socket){
             console.log('Room destroyed');
         } else {
             users[index]--;
+            io.to(roomname).emit('online gods', roomUsers[socket.room]);
             io.to(roomname).emit('new leave', username, roomname, users[index]);
         }
     }

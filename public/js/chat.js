@@ -29,10 +29,20 @@ $(function(){
     });
 
     socket.on('connect', function(){
-      console.log("first connect")
-      $onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
-      //TODO: load online user list in LOBBY
+        console.log("first connect")
+        //$onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
 
+    });
+
+    socket.on('online gods', function(godsList){
+        //TODO: ENHANCE THIS SHIT
+        console.log(godsList);
+        $onlineUserList.html('<h6>Online Gods</h6>');
+        var gods;
+        for (var num in godsList) {
+            gods = godsList[num];
+            $onlineUserList.append('<div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + gods + '</div><div class="user-description">The God</div></div>');
+        }
     });
 
     socket.on('new message', function(data){
@@ -60,7 +70,7 @@ $(function(){
         //TODO: add number of current user to UI
         $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
 
-        $onlineUserList.append('<div id="' + username + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + username + '</div></div></div>');
+        //$onlineUserList.append('<div id="' + username + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + username + '</div></div></div>');
     });
 
     socket.on('new leave', function(username, roomname, currentNumber){
