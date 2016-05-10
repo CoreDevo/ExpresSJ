@@ -93,9 +93,10 @@ $(function(){
         $onlineUserList.remove('.'+username)
     });
 
-    socket.on('clear data', function(){
+    socket.on('clear data', function(data){
+        console.log('Clear Data Arrived')
         $onlineUserList.html('');
-        $chat.html('');
+        $chat.val('');
     });
 
     function inRoom(){
