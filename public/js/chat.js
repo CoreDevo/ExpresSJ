@@ -36,7 +36,9 @@ $(function(){
 
     socket.on('online gods', function(godsList){
         console.log(godsList);
-        for (var gods in godsList) {
+        var gods;
+        for (var num in godsList) {
+            gods = godsList[num];
             $onlineUserList.append('<div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + gods + '</div><div class="user-description">The God</div></div>');
         }
     });
