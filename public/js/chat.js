@@ -2,7 +2,7 @@ $(function(){
     var socket = io.connect();
     var $messageForm = $('#messageForm');
     var $message = $('#message');
-    var $chat = $('#chat-body');
+    var $chat = $('#chat-box');
     var $roomForm = $('#roomForm');
     var $room = $('#room');
     var roomname = 'lobby';
@@ -65,7 +65,9 @@ $(function(){
 
 
         $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
-        $('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
+
+        //TODO: FIX PLS
+        //$('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
     });
 
     socket.on('entered room', function(roomname) {
