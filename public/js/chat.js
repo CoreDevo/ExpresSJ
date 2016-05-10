@@ -9,6 +9,7 @@ $(function(){
     var $onlineUserList = $('#chat-users');
     var cachedUsername = document.cookie;
     var slicedUsername = cachedUsername.split("=")[1];
+    var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
 
     // console.log(slicedUsername)
 
@@ -60,7 +61,10 @@ $(function(){
         // console.log(direction);
         //NOTE: This is da fkiing ES6 feature, compatibility should be considered
         // $chat.append('<div class="answer ${direction}"><div class="avatar"><img src="img/avatar-${direction}.jpg" alt="User name"></div><div class="name">${cachedUsername}</div><div class="text">${data.msg}</div><div class="time">1989年年初的时候</div></div>');
-        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text">' + data.msg + '</div><div class="time">Just now</div></div>');
+
+
+
+        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
         $('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
     });
 
@@ -98,4 +102,14 @@ $(function(){
         $chat.html('');
         $chat.append('<div class="well">You are in room ' + roomname + '</div>');
     }
+
+    function parseEmoji(message){
+        parsedMessage = message;
+        for (index = 0; index < emojiList.length; ++index)  {
+            key = emojiList[index];
+            parsedMessage=parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
+        }
+        return parsedMessage;
+    }
+
 });
