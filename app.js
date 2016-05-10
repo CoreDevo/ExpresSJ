@@ -8,7 +8,7 @@ var path = require('path');
 var logger = require('morgan');
 
 var indexRouter = require('./routers/index');
-var chatRouter = require('./routers/chat');
+var chatRouter = require('./routers/chat_router');
 var loginRouter = require('./routers/login');
 
 connections = [];
