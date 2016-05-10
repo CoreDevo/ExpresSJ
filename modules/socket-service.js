@@ -90,7 +90,7 @@ var createSocket = function(server) {
 			connections.splice(connections.indexOf(socket), 1);
 			console.log('disconnected %s', connections.length);
 			leaveRoom(socket);
-			socket.emit('clear data');
+			socket.emit('clear data', data);
 		});
 	});
 };
