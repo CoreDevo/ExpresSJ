@@ -3,7 +3,7 @@ var assert = require('assert');
 
 var userdbURL = 'mongodb://localhost:27017/Users';
 var chatlogURL = 'mongodb://localhost:27017/ChatLogs';
-var proomURL = 'mongodb://localhost:27017/PrivateRooms'
+var proomURL = 'mongodb://localhost:27017/PrivateRooms';
 
 var storeNewMessage = function(roomName, username, msg, callback) {
 	mongo.connect(chatlogURL, function(err, db) {
@@ -15,7 +15,7 @@ var storeNewMessage = function(roomName, username, msg, callback) {
 			'username':username,
 			'message':msg,
 			'time': +new Date()
-		}
+		};
 		db.collection(roomName).insertOne(message, function(err, res) {
 			db.close();
 			if(err) {
@@ -44,7 +44,7 @@ var getRecentMessage = function(roomName, callback) {
 			else {callback(true,res.reverse());}
 		});
 	});
-}
+};
 exports.getRecentMessage = getRecentMessage;
 
 var createPrivateRoom = function(roomName, password, callback) {
@@ -71,5 +71,5 @@ var createPrivateRoom = function(roomName, password, callback) {
 			}
 		});
 	});
-}
+};
 exports.createPrivateRoom = createPrivateRoom;
