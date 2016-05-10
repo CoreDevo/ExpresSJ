@@ -99,7 +99,6 @@ $(function(){
     function inRoom(){
         $room.val('');
         console.log('client side room name is ' + roomname);
-        $chat.html('');
         $chat.append('<div class="well">You are in room ' + roomname + '</div>');
     }
 
