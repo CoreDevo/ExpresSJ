@@ -1,5 +1,6 @@
 var socket_io = require('socket.io');
 var mongo = require('../modules/mongo-service');
+var utils = require('../modules/utils');
 
 var createSocket = function(server) {
 	var io = socket_io(server);
@@ -7,10 +8,10 @@ var createSocket = function(server) {
 		connections.push(socket);
 		console.log('connected %s', connections.length);
 		
-		socket.on('first connect', function (roomname, rawUsername) {
+		socket.on('first connect', function (roomname, rawCookies) {
 			//TODO: Temp solotion for cookie username, need better solution
-			var splitArray = rawUsername.split(';');
-			var username = splitArray[splitArray.length - 1].split('=')[1];
+			var cookies = utils.parseCookies(rawCookies);
+			var username = cookies['userID'];
 			console.log('username is ' + username);
 			socket.join(roomname);
 			socket.room = roomname;
