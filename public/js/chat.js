@@ -35,6 +35,7 @@ $(function(){
     });
 
     socket.on('online gods', function(godsList){
+        console.log('Received List of Online Gods');
         console.log(godsList);
     });
 
