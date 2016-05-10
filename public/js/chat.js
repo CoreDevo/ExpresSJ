@@ -36,7 +36,7 @@ $(function(){
 
     socket.on('online gods', function(godsList){
         console.log(godsList);
-        $onlineUserList.html('');
+        $onlineUserList.html('<h6>Online Gods</h6>');
         var gods;
         for (var num in godsList) {
             gods = godsList[num];

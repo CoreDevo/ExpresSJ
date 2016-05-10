@@ -114,7 +114,6 @@ io.on('connection', function(socket){
         console.log('User is leaving ' + socket.room);
         var roomname = socket.room;
         var username = socket.user;
-        io.to(roomname).emit('online gods', roomUsers[roomname]);
         socket.leave(socket.room);
 
         //TODO: Enhance maybe
@@ -129,6 +128,7 @@ io.on('connection', function(socket){
             console.log('Room destroyed');
         } else {
             users[index]--;
+            io.to(roomname).emit('online gods', roomUsers[socket.room]);
             io.to(roomname).emit('new leave', username, roomname, users[index]);
         }
     }
