@@ -15,7 +15,7 @@ var router = express.Router();
  });*/
 
 router.get('/', function (req, res) {
-	res.sendFile(path.resolve('/public/chat.html'));
+	res.sendFile(path.resolve('public/chat.html'));
 });
 
 module.exports = router;
