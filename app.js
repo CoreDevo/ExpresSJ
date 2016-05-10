@@ -71,7 +71,8 @@ io.on('connection', function(socket){
         socket.join(roomname);
         socket.room = roomname;
         socket.user = username;
-        console.log(username + " joined into Room: " + roomname)
+        console.log(username + " joined into Room: " + roomname);
+        socket.to(roomname).emit('online gods', roomUsers[roomname]);
         users[0]++;
     });
 
@@ -89,6 +90,7 @@ io.on('connection', function(socket){
         }
         socket.room = roomname;
         socket.join(roomname);
+        socket.to(roomname).emit('online gods', roomUsers[roomname]);
         socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
 
@@ -112,6 +114,7 @@ io.on('connection', function(socket){
         console.log('User is leaving ' + socket.room);
         var roomname = socket.room;
         var username = socket.user;
+        socket.to(roomname).emit('online gods', roomUsers[roomname]);
         socket.leave(socket.room);
 
         //TODO: Enhance maybe

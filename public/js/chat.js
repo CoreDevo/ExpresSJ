@@ -29,10 +29,13 @@ $(function(){
     });
 
     socket.on('connect', function(){
-      console.log("first connect")
-      $onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
-      //TODO: load online user list in LOBBY
+        console.log("first connect")
+        //$onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
 
+    });
+
+    socket.on('online gods', function(godsList){
+        console.log(godsList);
     });
 
     socket.on('new message', function(data){
