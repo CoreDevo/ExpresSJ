@@ -19,6 +19,7 @@ router.post('/', function (req, res, next) {
 	console.log('User in lobby: ' + roomUsers['lobby']);
 	console.log(req.body.name + " cached");
 	res.cookie("userID", req.body.name, {maxAge: 1000*60*60*24*30});
+	res.cookie("shouldProcessChat", true, {maxAge: 1000*10});
 	res.redirect('/chat');
 });
 
