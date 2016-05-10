@@ -1,13 +1,11 @@
 var express = require('express');
 var app = express();
-var server = require('http').Server(app);
 var index = '/index.html';
 var notFound = '/notFound.html';
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 var logger = require('morgan');
-var mongo = require('./modules/mongo-service');
 
 var indexRouter = require('./routers/index');
 var chatRouter = require('./routers/chat');
