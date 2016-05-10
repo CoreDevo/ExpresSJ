@@ -7,6 +7,9 @@ logs
 *.log
 npm-debug.log*
 
+# VCS idea repo
+.idea
+
 # Runtime data
 pids
 *.pid

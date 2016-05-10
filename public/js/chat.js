@@ -64,6 +64,11 @@ $(function(){
         $('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
     });
 
+    socket.on('entered room', function(roomname) {
+        console.log('Entered new room: ' + roomname);
+        inRoom();
+    });
+
     socket.on('new join', function(username, roomname, currentNumber){
         console.log(username + " joined");
         console.log('In ' + roomname + ', Currently ' + currentNumber);
@@ -82,10 +87,10 @@ $(function(){
         $onlineUserList.remove('.'+username)
     });
 
-    socket.on('entered room', function(roomname) {
-        console.log('Entered new room: ' + roomname);
-        inRoom();
-    });
+    socket.on('clear data'){
+        $onlineUserList.html('');
+        $chat.html('');
+    }
 
     function inRoom(){
         $room.val('');
