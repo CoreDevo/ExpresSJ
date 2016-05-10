@@ -90,11 +90,11 @@ io.on('connection', function(socket){
         }
         socket.room = roomname;
         socket.join(roomname);
-        io.to(roomname).emit('online gods', roomUsers[roomname]);
         socket.emit('entered room', roomname);
         users[room.indexOf(roomname)]++;
 
         roomUsers[roomname].push(socket.user);
+        io.to(roomname).emit('online gods', roomUsers[roomname]);
         console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
 
         var currentNumber = users[room.indexOf(roomname)];

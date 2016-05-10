@@ -35,6 +35,7 @@ $(function(){
     });
 
     socket.on('online gods', function(godsList){
+        //TODO: ENHANCE THIS SHIT
         console.log(godsList);
         $onlineUserList.html('<h6>Online Gods</h6>');
         var gods;
