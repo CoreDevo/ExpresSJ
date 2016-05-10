@@ -1,7 +1,3 @@
-/**
- * Created by JyaouShingan on 2016-05-10.
- */
-
 var socket_io = require('socket.io');
 var mongo = require('../modules/mongo-service');
 
@@ -93,6 +89,7 @@ var createSocket = function(server) {
 		socket.on('disconnect', function (data) {
 			connections.splice(connections.indexOf(socket), 1);
 			console.log('disconnected %s', connections.length);
+			socket.emit('clear data');
 		});
 	});
 };
