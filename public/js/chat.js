@@ -19,8 +19,13 @@ $(function(){
     $roomForm.submit(function(e){
         e.preventDefault();
         console.log('Room Button Clicked');
-        roomname = $room.val();
-        socket.emit('enter room', roomname);
+        var rawRoomname = $room.val();
+        roomname = parseRoomname(rawRoomname);
+        if(roomname != '') {
+            socket.emit('enter room', roomname);
+        } else {
+            alert('Are you trying to break?');
+        }
     });
 
     $messageForm.submit(function(e){
@@ -54,10 +59,10 @@ $(function(){
       var direction;
         if(slicedUsername == data.username){
           //sent by current user
-          direction = "right"
+          direction = "right";
         }
         else{
-          direction = "left"
+          direction = "left";
         }
 
         $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
@@ -104,6 +109,11 @@ $(function(){
         $room.val('');
         console.log('client side room name is ' + roomname);
         // $chat.append('<div class="well">You are in room ' + roomname + '</div>');
+    }
+
+    function parseRoomname(rawRoomname) {
+        var roomname = rawRoomname.trim().split('').join();
+        return roomname;
     }
 
     function parseEmoji(message){
