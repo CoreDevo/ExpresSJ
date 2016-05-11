@@ -7,6 +7,7 @@ $(function(){
     var $room = $('#room');
     var roomname = 'lobby';
     var $onlineUserList = $('#chat-users');
+    var $topRoomname = $('#topRoomname');
     var cachedUsername = document.cookie;
     var slicedUsername = parseCookies(cachedUsername)["userID"];
     var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
@@ -18,8 +19,13 @@ $(function(){
     $roomForm.submit(function(e){
         e.preventDefault();
         console.log('Room Button Clicked');
-        roomname = $room.val();
-        socket.emit('enter room', roomname);
+        var rawRoomname = $room.val();
+        roomname = parseRoomname(rawRoomname);
+        if(roomname != '') {
+            socket.emit('enter room', roomname);
+        } else {
+            alert('Are you trying to break?');
+        }
     });
 
     $messageForm.submit(function(e){
@@ -53,41 +59,41 @@ $(function(){
       var direction;
         if(slicedUsername == data.username){
           //sent by current user
-          direction = "right"
+          direction = "right";
         }
         else{
-          direction = "left"
+          direction = "left";
         }
-        // console.log(direction);
-        //NOTE: This is da fkiing ES6 feature, compatibility should be considered
-        // $chat.append('<div class="answer ${direction}"><div class="avatar"><img src="img/avatar-${direction}.jpg" alt="User name"></div><div class="name">${cachedUsername}</div><div class="text">${data.msg}</div><div class="time">1989年年初的时候</div></div>');
-
-
 
         $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
 
-        //TODO: FIX PLS
-        //$('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
+        $('.chat').animate({scrollTop:$('.chat-box').height()}, 'fast');
+        console.log($('.chat-box').height())
+        console.log($('.chat-body').height())
     });
 
     socket.on('entered room', function(roomname) {
+        $onlineUserList.empty('');
+        $chat.empty('');
         console.log('Entered new room: ' + roomname);
         inRoom();
     });
 
     socket.on('new join', function(username, roomname, currentNumber){
         console.log(username + " joined");
+        $topRoomname.text(roomname + " Currently " + currentNumber);
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         //TODO: add number of current user to UI
-        $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
+        // $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
 
         //$onlineUserList.append('<div id="' + username + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + username + '</div></div></div>');
     });
 
     socket.on('new leave', function(username, roomname, currentNumber){
+        $topRoomname.text(roomname + " Currently " + currentNumber);
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         //for testing:
-        $chat.append('<div class="well">Someone left, Currently ' + currentNumber + '</div>');
+        // $chat.append('<div class="well">Someone left, Currently ' + currentNumber + '</div>');
 
         //remove offline users on online user list
         $onlineUserList.remove('.'+username)
@@ -102,7 +108,12 @@ $(function(){
     function inRoom(){
         $room.val('');
         console.log('client side room name is ' + roomname);
-        $chat.append('<div class="well">You are in room ' + roomname + '</div>');
+        // $chat.append('<div class="well">You are in room ' + roomname + '</div>');
+    }
+
+    function parseRoomname(rawRoomname) {
+        var roomname = rawRoomname.trim().split(' ').join('');
+        return roomname;
     }
 
     function parseEmoji(message){

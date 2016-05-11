@@ -78,6 +78,17 @@ text-overflow: ellipsis;
 }
 
 /*****************CHAT BODY *******************/
+/*make scroll bar transparent*/
+::-webkit-scrollbar
+{
+    width: 0px;
+}
+::-webkit-scrollbar-track-piece
+{
+    background-color: transparent;
+    -webkit-border-radius: 6px;
+}
+
 .chat-body h6 {
 font-size: 20px;
 margin: 0 0 20px;
