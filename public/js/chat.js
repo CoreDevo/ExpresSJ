@@ -112,7 +112,7 @@ $(function(){
     }
 
     function parseRoomname(rawRoomname) {
-        var roomname = rawRoomname.trim().split('').join();
+        var roomname = rawRoomname.trim().split(' ').join('');
         return roomname;
     }
 
