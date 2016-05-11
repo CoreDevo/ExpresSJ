@@ -22,37 +22,41 @@ var createSocket = function(server) {
 		});
 		
 		socket.on('enter room', function (roomname) {
-			if (roomname == socket.room) {
-				socket.emit('new message', {msg: 'You are already in this room'});
-				return;
-			}
-			leaveRoom(socket);
-			if (room.indexOf(roomname) == -1) {
-				room.push(roomname);
-				users.push(0);
-				roomUsers[roomname] = [];
-				console.log(room[room.length - 1] + ' room: Created');
-			}
-			socket.room = roomname;
-			socket.join(roomname);
-			socket.emit('entered room', roomname);
-			users[room.indexOf(roomname)]++;
-			
-			roomUsers[roomname].push(socket.user);
-			io.to(roomname).emit('online gods', roomUsers[roomname]);
-			console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
-			
-			var currentNumber = users[room.indexOf(roomname)];
-			console.log(socket.user + " joined into Room: " + roomname)
-			//TODO: emmit online user list array as well
-			io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
-			mongo.getRecentMessage(roomname, function (succeed, msgs) {
-				if (succeed) {
-					msgs.forEach(function (singleMsg) {
-						socket.emit('new message', {msg: singleMsg.message, username: singleMsg.username});
-					});
+			try {
+				if (roomname == socket.room) {
+					socket.emit('new message', {msg: 'You are already in this room'});
+					return;
 				}
-			})
+				leaveRoom(socket);
+				if (room.indexOf(roomname) == -1) {
+					room.push(roomname);
+					users.push(0);
+					roomUsers[roomname] = [];
+					console.log(room[room.length - 1] + ' room: Created');
+				}
+				socket.room = roomname;
+				socket.join(roomname);
+				socket.emit('entered room', roomname);
+				users[room.indexOf(roomname)]++;
+
+				roomUsers[roomname].push(socket.user);
+				io.to(roomname).emit('online gods', roomUsers[roomname]);
+				console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
+
+				var currentNumber = users[room.indexOf(roomname)];
+				console.log(socket.user + " joined into Room: " + roomname)
+				//TODO: emmit online user list array as well
+				io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
+				mongo.getRecentMessage(roomname, function (succeed, msgs) {
+					if (succeed) {
+						msgs.forEach(function (singleMsg) {
+							socket.emit('new message', {msg: singleMsg.message, username: singleMsg.username});
+						});
+					}
+				})
+			} catch(e) {
+				console.log(e);
+			}
 		});
 		
 		function leaveRoom(socket) {
