@@ -30,8 +30,10 @@
         </div>
         <div class="col-sm-9 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
           <div class="col-inside-lg decor-default">
+            <div id="topRoomname">Lobby</div>
             <div id="chat-body" class="chat-body">
                 <div id="chat-box" class="chat-box" style="overflow: scroll; margin-top: 30px">
+                <!-- <div id="chat-box" class="chat-box" style="margin-top: 30px"> -->
                     <!-- DEBUG -->
                 </div>
                 <form id="messageForm" class="row answer-add">
@@ -57,7 +59,6 @@
 <script type="text/javascript">
 	$(function(){
     $(".chat").niceScroll();
-    $('.chat').animate({scrollTop:$('.chat').height()}, 'slow');
 })
 </script>
 </body>
