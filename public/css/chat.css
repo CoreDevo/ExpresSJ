@@ -79,15 +79,28 @@ text-overflow: ellipsis;
 
 /*****************CHAT BODY *******************/
 /*make scroll bar transparent*/
-::-webkit-scrollbar
-{
-    width: 0px;
-}
-::-webkit-scrollbar-track-piece
-{
-    background-color: transparent;
-    -webkit-border-radius: 6px;
-}
+::-webkit-scrollbar {
+	width: 10px;
+	height: 7px;
+	background-color:transparent;
+	}
+
+::-webkit-scrollbar-button {
+	height: 0;
+	width: 0
+	}
+
+::-webkit-scrollbar-thumb {
+	background-color:transparent;
+	border-left:1px solid #E5E5E5;
+	border-radius:20%;
+	}
+
+
+::-webkit-scrollbar-track {
+	background-color:transparent;
+	box-shadow: none;
+	}
 
 .chat-body h6 {
 font-size: 20px;
