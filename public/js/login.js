@@ -4,7 +4,7 @@ $(document).ready( function() {
         var username=$("#username").val();
         var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g
         if (regex.test(username)){
-            alert('no =,%,&,# and space pls');
+            alert('no special symbol allowed');
             return;
         }
 
