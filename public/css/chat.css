@@ -209,7 +209,7 @@ color: #333333;
 clear: both;
 position: relative;
 margin: 20px -20px -20px;
-padding: 20px;
+padding: 15px 20px 15px 20px;
 /*send message bar color*/
 background: #7266ba;
 }
@@ -265,7 +265,7 @@ border-radius: 0;
 }
 #messageForm{
 position: fixed;
-bottom: 30px;
+bottom: 50px;
 width: 70%
 }
 
