@@ -135,7 +135,10 @@ bottom: 0;
 }
 .chat-body .answer.left .text {
 margin-right:150px;
-padding: 10px 20px 0px 20px;
+/*with text overflow scroll*/
+/*padding: 10px 20px 10px 20px;*/
+/*without:*/
+padding: 10px 20px 10px 20px;
 background: #ebebeb;
 color: #333333;
 border-radius: 8px 8px 8px 0;
@@ -145,11 +148,11 @@ font-size: 16px;
 line-height: 26px;
 position: relative;
 }
-.chat-body .answer.left .text:before {
+/*.chat-body .answer.left .text:before {
 left: -30px;
 border-right-color: #ebebeb;
 border-right-width: 12px;
-}
+}*/
 .chat-body .answer .text:before {
 content: '';
 display: block;
@@ -183,16 +186,19 @@ left: 4px;
 }
 .chat-body .answer.right .text {
 margin-left:150px;
-padding: 10px 20px 0px 20px;
+/*with text overflow scroll*/
+/*padding: 10px 20px 0px 20px;*/
+/*without:*/
+padding: 10px 20px 10px 20px;
 background: #7266ba;
 color: #ffffff;
 border-radius: 18px 18px 0 18px;
 }
-.chat-body .answer.right .text:before {
+/*.chat-body .answer.right .text:before {
 right: -30px;
 border-left-color: #7266ba;
 border-left-width: 12px;
-}
+}*/
 .chat-body .answer.right .time {
 padding-right: 12px;
 color: #333333;
