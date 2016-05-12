@@ -138,7 +138,7 @@ margin-right:150px;
 /*with text overflow scroll*/
 /*padding: 10px 20px 10px 20px;*/
 /*without:*/
-padding: 10px 20px 10px 20px;
+padding: 10px 20px 12px 20px;
 background: #ebebeb;
 color: #333333;
 border-radius: 8px 8px 8px 0;
@@ -189,7 +189,7 @@ margin-left:150px;
 /*with text overflow scroll*/
 /*padding: 10px 20px 0px 20px;*/
 /*without:*/
-padding: 10px 20px 10px 20px;
+padding: 10px 20px 12px 20px;
 background: #7266ba;
 color: #ffffff;
 border-radius: 18px 18px 0 18px;
