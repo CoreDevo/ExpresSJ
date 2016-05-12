@@ -66,12 +66,12 @@ border-radius: 5px;
 position: absolute;
 }
 .chat-users .user .name {
-font-size: 14px;
-font-weight: bold;
-line-height: 20px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .chat-users .user .user-description {
 font: 200 14px/20px "Raleway", sans-serif;
