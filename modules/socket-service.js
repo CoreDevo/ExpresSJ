@@ -22,11 +22,13 @@ var createSocket = function(server) {
 		});
 		
 		socket.on('enter room', function (roomname) {
+			console.log(socket.room);
 			try {
 				if (roomname == socket.room) {
 					socket.emit('new message', {msg: 'You are already in this room'});
 					return;
 				}
+				console.log(socket.room);
 				leaveRoom(socket);
 				if (room.indexOf(roomname) == -1) {
 					room.push(roomname);
