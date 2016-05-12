@@ -31,7 +31,11 @@ $(function(){
     $messageForm.submit(function(e){
         e.preventDefault();
         console.log('message submitted');
-        socket.emit('send message', $message.val(), roomname);
+        var msg = $message.val();
+        if (slicedUsername != '_admin_') {
+            msg = parseMessage($message.val());
+        }
+        socket.emit('send message', msg, roomname);
         $message.val('');
     });
 
@@ -133,4 +137,11 @@ $(function(){
         });
         return cookies;
     };
+
+    function parseMessage(message){
+        var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+            return '&#'+i.charCodeAt(0)+';';
+        });
+        return encodedMsg;
+    }
 });
