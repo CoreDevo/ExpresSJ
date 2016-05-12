@@ -2,8 +2,8 @@ $(document).ready( function() {
     deleteAllCookies();
     $('#login-button').click( function() {
         var username=$("#username").val();
-
-        if (username.indexOf('=') != -1 || (username.indexOf('%') != -1)|| (username.indexOf('&') != -1)|| (username.indexOf(' ') != -1) {
+        var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g
+        if (regex.test(username)){
             alert('no =,%,&,# and space pls');
             return;
         }
