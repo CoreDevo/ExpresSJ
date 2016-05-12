@@ -2,7 +2,7 @@ $(document).ready( function() {
     deleteAllCookies();
     $('#login-button').click( function() {
         var username=$("#username").val();
-
+        //TODO: disable all symbols
         if (username.indexOf('=') != -1 || (username.indexOf('%') != -1)|| (username.indexOf('&') != -1)|| (username.indexOf(' ') != -1) {
             alert('no =,%,&,# and space pls');
             return;
