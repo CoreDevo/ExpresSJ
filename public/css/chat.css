@@ -1,6 +1,6 @@
 body{
 margin-top:20px;
-background:#eee;
+background:#333333;
 }
 .row.row-broken {
 padding-bottom: 0;
@@ -10,6 +10,9 @@ padding: 20px;
 }
 .chat {
 height: calc(100vh - 180px);
+}
+.chat-body{
+	min-height: calc(100vh - 270px);
 }
 .decor-default {
 background-color: #ffffff;

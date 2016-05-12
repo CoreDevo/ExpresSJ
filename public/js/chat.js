@@ -67,7 +67,7 @@ $(function(){
 
         $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text" style="overflow: scroll;">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
 
-        $('.chat').animate({scrollTop:$('.chat-box').height()}, 'fast');
+        $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
         console.log($('.chat-box').height())
         console.log($('.chat-body').height())
     });
