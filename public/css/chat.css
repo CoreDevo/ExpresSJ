@@ -11,8 +11,8 @@ padding: 20px;
 .chat {
 height: calc(100vh - 180px);
 }
-.chat-body{
-	min-height: calc(100vh - 270px);
+.chat-body {
+min-height: calc(100vh - 270px);
 }
 .decor-default {
 background-color: #ffffff;
@@ -82,28 +82,15 @@ text-overflow: ellipsis;
 
 /*****************CHAT BODY *******************/
 /*make scroll bar transparent*/
-::-webkit-scrollbar {
-	width: 10px;
-	height: 7px;
-	background-color:transparent;
-	}
-
-::-webkit-scrollbar-button {
-	height: 0;
-	width: 0
-	}
-
-::-webkit-scrollbar-thumb {
-	background-color:transparent;
-	border-left:1px solid #E5E5E5;
-	border-radius:20%;
-	}
-
-
-::-webkit-scrollbar-track {
-	background-color:transparent;
-	box-shadow: none;
-	}
+::-webkit-scrollbar
+{
+    width: 0px;
+}
+::-webkit-scrollbar-track-piece
+{
+    background-color: transparent;
+    -webkit-border-radius: 6px;
+}
 
 .chat-body h6 {
 font-size: 20px;
@@ -147,12 +134,13 @@ right: 4px;
 bottom: 0;
 }
 .chat-body .answer.left .text {
+margin-right:150px;
+padding: 10px 20px 0px 20px;
 background: #ebebeb;
 color: #333333;
 border-radius: 8px 8px 8px 0;
 }
 .chat-body .answer .text {
-padding: 12px;
 font-size: 16px;
 line-height: 26px;
 position: relative;
@@ -194,9 +182,11 @@ right: 0;
 left: 4px;
 }
 .chat-body .answer.right .text {
+margin-left:150px;
+padding: 10px 20px 0px 20px;
 background: #7266ba;
 color: #ffffff;
-border-radius: 8px 8px 0 8px;
+border-radius: 18px 18px 0 18px;
 }
 .chat-body .answer.right .text:before {
 right: -30px;
