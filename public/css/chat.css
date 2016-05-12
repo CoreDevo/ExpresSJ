@@ -1,6 +1,6 @@
 body{
 margin-top:20px;
-background:#eee;
+background:#333333;
 }
 .row.row-broken {
 padding-bottom: 0;
@@ -10,6 +10,9 @@ padding: 20px;
 }
 .chat {
 height: calc(100vh - 180px);
+}
+.chat-body {
+min-height: calc(100vh - 270px);
 }
 .decor-default {
 background-color: #ffffff;
@@ -131,12 +134,13 @@ right: 4px;
 bottom: 0;
 }
 .chat-body .answer.left .text {
+margin-right:150px;
+padding: 10px 20px 0px 20px;
 background: #ebebeb;
 color: #333333;
 border-radius: 8px 8px 8px 0;
 }
 .chat-body .answer .text {
-padding: 12px;
 font-size: 16px;
 line-height: 26px;
 position: relative;
@@ -178,9 +182,11 @@ right: 0;
 left: 4px;
 }
 .chat-body .answer.right .text {
+margin-left:150px;
+padding: 10px 20px 0px 20px;
 background: #7266ba;
 color: #ffffff;
-border-radius: 8px 8px 0 8px;
+border-radius: 18px 18px 0 18px;
 }
 .chat-body .answer.right .text:before {
 right: -30px;
