@@ -23,10 +23,9 @@ $(document).ready( function() {
       verifyUsername();
         $.ajax({
             type: 'POST',
-            url: path + '/generateAccessCode',
+            url: path + '/login/generateAccessCode',
             data: {name: username},
             success: function(data) {
-                alert(data);
                 $("#username").val(username);
                 $('#accessCode').val(data.accessCode);
             }
