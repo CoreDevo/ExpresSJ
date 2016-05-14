@@ -1,18 +1,11 @@
 $(document).ready( function() {
     deleteAllCookies();
-    var username = $("#username").val();
-    // var password = $("#password").val();
-    var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g
-    if (regex.test(username)){
-        alert('no special symbol allowed');
-        return;
-    }
 
     var path = 'http://' + $(location).attr('host');
-    console.log(path);
-
     $('#login-public').click( function() {
-
+      var username = $("#username").val();
+      // var password = $("#password").val();
+      verifyUsername();
         $.ajax({
             type: 'POST',
             url: path + '/login',
@@ -25,15 +18,20 @@ $(document).ready( function() {
     });
 
     $('#create-accessCode').click( function() {
+      var username = $("#username").val();
+      // var password = $("#password").val();
+      verifyUsername();
         $.ajax({
             type: 'POST',
             url: path + '/generateAccessCode',
             data: {name: username},
             success: function(data) {
-                console.log(data);
+                alert(data);
+                $("#username").val(username);
                 $('#accessCode').val(data.accessCode);
-              }
+            }
         });
+        return false; // to stop link
     });
 });
 
@@ -46,4 +44,12 @@ function deleteAllCookies() {
     	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
     	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
+}
+
+function verifyUsername(){
+    var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g;
+      if (regex.test(username)){
+        alert('no special symbol allowed');
+        return;
+      }
 }
