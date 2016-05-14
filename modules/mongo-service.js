@@ -47,27 +47,27 @@ var getRecentMessage = function(roomName, callback) {
 };
 exports.getRecentMessage = getRecentMessage;
 
-var createPrivateRoom = function(roomName, password, callback) {
+var createPrivateRoom = function(accessCode, callback) {
 	mongo.connect(proomURL, function(err, db) {
 		if(err) {
 			console.log(err);
 			return;
 		}
+		/*
 		db.listCollections({name: roomName}).toArray(function (err, items) {
 			if(items.length !== 0) {
 				callback("Room Name already exist", false);
 				return;
 			}
-		});
-		db.collection(roomName).insertOne({
-			"name":roomName,
-			"password":password,
+		});*/
+		db.collection(accessCode).insertOne({
+			"_id": accessCode,
 			"createTime":+new Date()
 		}, function(err, res) {
 			if(err) {
-				callback(err, false);
+				callback(err);
 			} else {
-				callback(null, true);
+				callback(null);
 			}
 		});
 	});
