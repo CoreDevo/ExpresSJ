@@ -31,7 +31,11 @@ $(function(){
     $messageForm.submit(function(e){
         e.preventDefault();
         console.log('message submitted');
-        socket.emit('send message', $message.val(), roomname);
+        var msg = $message.val();
+        if (slicedUsername != '_admin_') {
+            msg = parseMessage($message.val());
+        }
+        socket.emit('send message', msg, roomname);
         $message.val('');
     });
 
@@ -65,9 +69,9 @@ $(function(){
           direction = "left";
         }
 
-        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + data.username + '</div><div class="text" style="overflow: scroll;">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
+        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + decodeURIComponent(data.username) + '</div><div class="text">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
 
-        $('.chat').animate({scrollTop:$('.chat-box').height()}, 'fast');
+        $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
         console.log($('.chat-box').height())
         console.log($('.chat-body').height())
     });
@@ -133,4 +137,11 @@ $(function(){
         });
         return cookies;
     };
+
+    function parseMessage(message){
+        var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+            return '&#'+i.charCodeAt(0)+';';
+        });
+        return encodedMsg;
+    }
 });

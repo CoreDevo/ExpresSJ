@@ -1,6 +1,6 @@
 body{
 margin-top:20px;
-background:#eee;
+background:#333333;
 }
 .row.row-broken {
 padding-bottom: 0;
@@ -10,6 +10,9 @@ padding: 20px;
 }
 .chat {
 height: calc(100vh - 180px);
+}
+.chat-body {
+min-height: calc(100vh - 270px);
 }
 .decor-default {
 background-color: #ffffff;
@@ -63,12 +66,12 @@ border-radius: 5px;
 position: absolute;
 }
 .chat-users .user .name {
-font-size: 14px;
-font-weight: bold;
-line-height: 20px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .chat-users .user .user-description {
 font: 200 14px/20px "Raleway", sans-serif;
@@ -131,21 +134,25 @@ right: 4px;
 bottom: 0;
 }
 .chat-body .answer.left .text {
+margin-right:150px;
+/*with text overflow scroll*/
+/*padding: 10px 20px 10px 20px;*/
+/*without:*/
+padding: 10px 20px 12px 20px;
 background: #ebebeb;
 color: #333333;
 border-radius: 8px 8px 8px 0;
 }
 .chat-body .answer .text {
-padding: 12px;
 font-size: 16px;
 line-height: 26px;
 position: relative;
 }
-.chat-body .answer.left .text:before {
+/*.chat-body .answer.left .text:before {
 left: -30px;
 border-right-color: #ebebeb;
 border-right-width: 12px;
-}
+}*/
 .chat-body .answer .text:before {
 content: '';
 display: block;
@@ -178,15 +185,20 @@ right: 0;
 left: 4px;
 }
 .chat-body .answer.right .text {
+margin-left:150px;
+/*with text overflow scroll*/
+/*padding: 10px 20px 0px 20px;*/
+/*without:*/
+padding: 10px 20px 12px 20px;
 background: #7266ba;
 color: #ffffff;
-border-radius: 8px 8px 0 8px;
+border-radius: 18px 18px 0 18px;
 }
-.chat-body .answer.right .text:before {
+/*.chat-body .answer.right .text:before {
 right: -30px;
 border-left-color: #7266ba;
 border-left-width: 12px;
-}
+}*/
 .chat-body .answer.right .time {
 padding-right: 12px;
 color: #333333;
@@ -197,7 +209,7 @@ color: #333333;
 clear: both;
 position: relative;
 margin: 20px -20px -20px;
-padding: 20px;
+padding: 15px 20px 15px 20px;
 /*send message bar color*/
 background: #7266ba;
 }
@@ -253,7 +265,7 @@ border-radius: 0;
 }
 #messageForm{
 position: fixed;
-bottom: 30px;
+bottom: 50px;
 width: 70%
 }
 

@@ -1,6 +1,4 @@
-/**
- * Created by JyaouShingan on 2016-05-10.
- */
+//Utilities functions
 
 module.exports.parseCookies = function(rawCookies) {
 	var cookies = {};
