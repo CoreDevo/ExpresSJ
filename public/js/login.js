@@ -2,9 +2,9 @@ $(document).ready( function() {
     deleteAllCookies();
     $('#login-button').click( function() {
         var username=$("#username").val();
-
-        if (username.indexOf('=') != -1 || username.indexOf(' ') != -1) {
-            alert('no = and space pls');
+        var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g
+        if (regex.test(username)){
+            alert('no special symbol allowed');
             return;
         }
 
