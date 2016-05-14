@@ -29,7 +29,7 @@ node bin/www.js
 ## File Tree
 
 ```
-|-- Github',
+|-- ExpresSJ',
     |-- .DS_Store',
     |-- .gitignore',
     |-- README2.md',
