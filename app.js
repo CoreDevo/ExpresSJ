@@ -10,6 +10,7 @@ var logger = require('morgan');
 var indexRouter = require('./routers/index');
 var chatRouter = require('./routers/chat_router');
 var loginRouter = require('./routers/login');
+var accessCodeGenerator = require('./routers/accessCode');
 
 connections = [];
 room = ['lobby'];
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname + '/public')));
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/chat', chatRouter);
+app.use('/generateAccessCode', accessCodeGenerator);
 
 app.use(function(req, res){
 	console.log('someone just viewed 404 page');
