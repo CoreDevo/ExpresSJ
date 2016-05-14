@@ -9,7 +9,6 @@ $(document).ready( function() {
     }
 
     var path = 'http://' + $(location).attr('host');
-    console.log(path);
 
     $('#login-public').click( function() {
 
@@ -30,7 +29,7 @@ $(document).ready( function() {
             url: path + '/generateAccessCode',
             data: {name: username},
             success: function(data) {
-                console.log(data);
+                alert(data);
                 $('#accessCode').val(data.accessCode);
               }
         });
