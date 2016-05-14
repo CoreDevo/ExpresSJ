@@ -28,4 +28,9 @@ app.use('/login', loginRouter);
 app.use('/chat', chatRouter);
 app.use('/generateAccessCode', accessCodeGenerator);
 
+app.use(function(req, res){
+	console.log('someone just viewed 404 page');
+	res.sendFile(path.resolve('public/notFound.html'));
+});
+
 module.exports = app;
