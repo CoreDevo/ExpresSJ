@@ -76,7 +76,7 @@ body :-ms-input-placeholder {
   position: relative;
   z-index: 2;
 }
-#username {
+#username, #password, #accessCode {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -95,15 +95,15 @@ body :-ms-input-placeholder {
           transition-duration: 0.25s;
   font-weight: 300;
 }
-#username:hover {
+#username:hover , #password:hover, #accessCode:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
-#username:focus {
+#username:focus, #password:focus, #accessCode:focus {
   background-color: white;
   width: 300px;
   color: #53e3a6;
 }
-#login-button {
+#login-public, #login-private, #create-accessCode {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -119,7 +119,7 @@ body :-ms-input-placeholder {
   -webkit-transition-duration: 0.25s;
           transition-duration: 0.25s;
 }
-#login-button:hover {
+#login-public:hover, #login-private:hover, #create-accessCode:hover {
   background-color: #f5f7f9;
 }
 .bg-bubbles {

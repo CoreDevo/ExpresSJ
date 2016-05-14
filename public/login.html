@@ -17,8 +17,14 @@
 		<div class="login-container">
 			<h1>Express</h1>
 			<form class="form">
-				<input type="text" id="username" placeholder="What's Your Name?" autocomplete="off">
-				<button type="submit" id="login-button">Join Chat</button>
+				<input type="text" id="username" placeholder="Your Username" autocomplete="off">
+        <!-- <input type="password" id="password" placeholder="Your Password" autocomplete="off"> -->
+				<button type="submit" id="login-public">Join Public Chat</button>
+        <p>or</p>
+        <button type="submit" id="create-accessCode">Create Private Room</button>
+        <p>Already have access to Private Room?</p>
+        <input type="text" id="accessCode" placeholder="Your Access Code" autocomplete="off">
+        <button type="submit" id="login-private">Go to Your Prvate Room</button>
 			</form>
 		</div>
 		<ul class="bg-bubbles">
