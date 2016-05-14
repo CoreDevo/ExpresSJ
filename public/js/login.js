@@ -1,14 +1,18 @@
 $(document).ready( function() {
     deleteAllCookies();
-    $('#login-button').click( function() {
-        var username=$("#username").val();
-        var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g
-        if (regex.test(username)){
-            alert('no special symbol allowed');
-            return;
-        }
+    var username = $("#username").val();
+    // var password = $("#password").val();
+    var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g
+    if (regex.test(username)){
+        alert('no special symbol allowed');
+        return;
+    }
 
-        var path = 'http://' + $(location).attr('host');
+    var path = 'http://' + $(location).attr('host');
+    console.log(path);
+
+    $('#login-public').click( function() {
+
         $.ajax({
             type: 'POST',
             url: path + '/login',
@@ -18,6 +22,18 @@ $(document).ready( function() {
             }
         });
         return false; // to stop link
+    });
+
+    $('#create-accessCode').click( function() {
+        $.ajax({
+            type: 'POST',
+            url: path + '/generateAccessCode',
+            data: {name: username},
+            success: function(data) {
+                console.log(data);
+                $('#accessCode').val(data.accessCode);
+              }
+        });
     });
 });
 
