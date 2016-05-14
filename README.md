@@ -11,7 +11,6 @@ git clone https://github.com/CoreDevo/ExpresSJ.git
 cd ExpresSJ/
 npm install
 node bin/www.js
-cd
 ```
 
 
@@ -29,7 +28,7 @@ cd
 
 ## File Tree
 
-```sh
+```
 |-- Github',
     |-- .DS_Store',
     |-- .gitignore',
