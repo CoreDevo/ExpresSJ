@@ -67,7 +67,6 @@ node bin/www.js
     |       |-- jquery.nicescroll.js',
     |       |-- socket.io-1.4.5.js',
     |-- routers',
-        |-- accessCode.js',
         |-- chat_router.js',
         |-- index.js',
         |-- login.js',
