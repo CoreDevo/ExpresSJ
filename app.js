@@ -7,9 +7,9 @@ var cookieParser = require('cookie-parser');
 var path = require('path');
 var logger = require('morgan');
 
-var indexRouter = require('./routers/index');
+var indexRouter = require('./routers/index_router');
 var chatRouter = require('./routers/chat_router');
-var loginRouter = require('./routers/login');
+var loginRouter = require('./routers/login_router');
 
 connections = [];
 room = ['lobby'];
