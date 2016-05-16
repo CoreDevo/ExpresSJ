@@ -11,6 +11,10 @@ padding: 20px;
 .chat {
 height: calc(100vh - 180px);
 }
+.chat-box{
+  overflow: scroll;
+  margin-top: 30px;
+}
 .chat-body {
 min-height: calc(100vh - 270px);
 }
