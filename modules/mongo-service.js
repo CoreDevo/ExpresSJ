@@ -1,14 +1,14 @@
 var mongo = require('mongodb').MongoClient;
 var assert = require('assert');
 
-var userdbURL = 'mongodb://localhost:27017/Users';
+var usersURL = 'mongodb://localhost:27017/Users';
 var chatlogURL = 'mongodb://localhost:27017/ChatLogs';
 var proomURL = 'mongodb://localhost:27017/PrivateRooms';
 
 var storeNewMessage = function(roomName, username, msg, callback) {
 	mongo.connect(chatlogURL, function(err, db) {
 		if(err) {
-			console.log(err);
+			callback(false, err);
 			return;
 		}
 		var message = {
@@ -19,9 +19,9 @@ var storeNewMessage = function(roomName, username, msg, callback) {
 		db.collection(roomName).insertOne(message, function(err, res) {
 			db.close();
 			if(err) {
-				callback(false);
+				callback(false, err);
 			} else {
-				callback(true);
+				callback(true, null);
 			}
 		});
 	});
@@ -31,7 +31,7 @@ exports.storeNewMessage = storeNewMessage;
 var getRecentMessage = function(roomName, callback) {
 	mongo.connect(chatlogURL, function(err, db) {
 		if(err) {
-			console.log(err);
+			callback(false, null, err);
 			return;
 		}
 		var aggregate = [
@@ -40,8 +40,8 @@ var getRecentMessage = function(roomName, callback) {
 		];
 		db.collection(roomName).aggregate(aggregate, function(err, res) {
 			db.close();
-			if(err) {callback(false, null);}
-			else {callback(true,res.reverse());}
+			if(err) {callback(false, null, err);}
+			else {callback(true,res.reverse(), null);}
 		});
 	});
 };
@@ -50,7 +50,7 @@ exports.getRecentMessage = getRecentMessage;
 var createPrivateRoom = function(accessCode, callback) {
 	mongo.connect(proomURL, function(err, db) {
 		if(err) {
-			console.log(err);
+			callback(false, err);
 			return;
 		}
 		/*
@@ -73,3 +73,15 @@ var createPrivateRoom = function(accessCode, callback) {
 	});
 };
 exports.createPrivateRoom = createPrivateRoom;
+
+var requestNewRegistration = function(username, password, callback) {
+	mongo.connect(usersURL, function(err, db) {
+		if (err) {
+			callback(false, err);
+			return;
+		}
+		var collection = db.collection('Users');
+		collection.find({'name':username});
+	});
+};
+exports.requestNewRegistration = requestNewRegistration;
