@@ -49,11 +49,14 @@ var createSocket = function(server) {
 				console.log(socket.user + " joined into Room: " + roomname)
 				//TODO: emmit online user list array as well
 				io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
-				mongo.getRecentMessage(roomname, function (succeed, msgs) {
+				mongo.getRecentMessage(roomname, function (succeed, msgs, err) {
 					if (succeed) {
 						msgs.forEach(function (singleMsg) {
 							socket.emit('new message', {msg: singleMsg.message, username: singleMsg.username});
 						});
+					} else {
+						const error_msg = 'Failed to get recent history';
+						socket.emit('new message', {msg: error_msg, username: 'ExpresSJ'});
 					}
 				})
 			} catch(e) {
@@ -86,9 +89,12 @@ var createSocket = function(server) {
 		
 		socket.on('send message', function (data, roomname) {
 			console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
-			mongo.storeNewMessage(roomname, socket.user, data, function (succeed) {
+			mongo.storeNewMessage(roomname, socket.user, data, function (succeed, err) {
 				if (succeed) {
 					io.to(roomname).emit('new message', {msg: data, username: socket.user});
+				} else {
+					const error_msg = 'An error has occurred, your message was failed to send';
+					socket.emit('new message', {msg: error_msg, username: 'ExpresSJ'});
 				}
 			})
 		});
