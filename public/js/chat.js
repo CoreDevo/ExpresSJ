@@ -1,4 +1,6 @@
 var esj = angular.module('esj', []);
+var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
+
 esj.controller('pubChatCtrl', function ($scope) {
     var socket = io.connect();
     var $messageForm = $('#messageForm');
@@ -11,7 +13,6 @@ esj.controller('pubChatCtrl', function ($scope) {
     var $topRoomname = $('#topRoomname');
     var cachedUsername = document.cookie;
     var slicedUsername = parseCookies(cachedUsername)["userID"];
-    var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
     $scope.messages=[];
     $scope.userlist=[];
 
@@ -32,14 +33,15 @@ esj.controller('pubChatCtrl', function ($scope) {
     });
 
     $scope.sendMessage = function(){
-        $scope.messageText = parseMessage($scope.messageText);
-        $scope.messages.push({
-          username:slicedUsername,
-          text:$scope.messageText,
-          direction:"right",
-          timestamp:"Just Now"
-        });
-        socket.emit('send message', $scope.messages, roomname);
+        // $scope.messageText = parseMessage($scope.messageText);
+        // $scope.messages.push({
+        //   username:slicedUsername,
+        //   text:$scope.messageText,
+        //   direction:"right",
+        //   timestamp:"Just Now"
+        // });
+        var msg = $message.val();
+        socket.emit('send message', msg, roomname);
         $message.val('');
     };
 
@@ -50,6 +52,7 @@ esj.controller('pubChatCtrl', function ($scope) {
     });
 
     socket.on('online gods', function(godsList){
+        $scope.userlist = [];
         console.log(godsList);
         var gods;
         for (var num in godsList) {
@@ -79,7 +82,7 @@ esj.controller('pubChatCtrl', function ($scope) {
           direction:direction,
           timestamp:"Just Now"
         });
-
+        console.log($scope.messages);
         $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
         console.log($('.chat-box').height())
         console.log($('.chat-body').height())
@@ -118,39 +121,40 @@ esj.controller('pubChatCtrl', function ($scope) {
         $chat.val('');
     });
 
-    function inRoom(){
-        $room.val('');
-        console.log('client side room name is ' + roomname);
-        // $chat.append('<div class="well">You are in room ' + roomname + '</div>');
-    }
-
-    function parseRoomname(rawRoomname) {
-        var roomname = rawRoomname.trim().split(' ').join('');
-        return roomname;
-    }
-
-    function parseEmoji(message){
-        var parsedMessage = message;
-        for (var index = 0; index < emojiList.length; ++index)  {
-            var key = emojiList[index];
-            parsedMessage=parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
-        }
-        return parsedMessage;
-    }
-
-    function parseCookies(rawCookies) {
-        var cookies = {};
-        rawCookies.split(';').forEach(function(element) {
-            var pair = element.split('=');
-            cookies[pair[0].trim()] = pair[1].trim();
-        });
-        return cookies;
-    };
-
-    function parseMessage(message){
-        var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
-            return '&#'+i.charCodeAt(0)+';';
-        });
-        return encodedMsg;
-    }
 });
+
+function inRoom(){
+    $room.val('');
+    console.log('client side room name is ' + roomname);
+    // $chat.append('<div class="well">You are in room ' + roomname + '</div>');
+}
+
+function parseRoomname(rawRoomname) {
+    var roomname = rawRoomname.trim().split(' ').join('');
+    return roomname;
+}
+
+function parseEmoji(message){
+    var parsedMessage = message;
+    for (var index = 0; index < emojiList.length; ++index)  {
+        var key = emojiList[index];
+        parsedMessage=parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
+    }
+    return parsedMessage;
+}
+
+function parseCookies(rawCookies) {
+    var cookies = {};
+    rawCookies.split(';').forEach(function(element) {
+        var pair = element.split('=');
+        cookies[pair[0].trim()] = pair[1].trim();
+    });
+    return cookies;
+};
+
+// function parseMessage(message){
+//     var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+//         return '&#'+i.charCodeAt(0)+';';
+//     });
+//     return encodedMsg;
+// }
