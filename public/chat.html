@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="esj">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,7 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="js/chat.js"></script>
 </head>
-<body>
+<body ng-controller="pubChatCtrl">
 <div class="content container-fluid bootstrap snippets">
   <div class="row row-broken">
     <div class="col-sm-3 col-xs-12">
@@ -27,6 +27,15 @@
         <h6>Online Gods</h6>
         <div id="chat-users" class="chat-users">
             <!-- online user list will be shown here -->
+            <div ng-repeat="user in userlist">
+              <div class="user">
+                  <div class="avatar">
+                  <img src="img/userLIstAvatar.png" alt="{{user.username}}">
+                  </div>
+                  <div class="name">{{user.username}}</div>
+                  <div class="user-description">{{user.description}}</div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
@@ -36,9 +45,19 @@
         <div id="chat-body" class="chat-body">
           <div id="chat-box" class="chat-box">
               <!-- messages will be shown here -->
+              <div ng-repeat="message in messages">
+                <div class="answer {{message.direction}}">
+                  <div class="avatar">
+                    <img src="img/avatar-{{message.direction}}.jpg" alt="{{message.username}}">
+                  </div>
+                  <div class="name">{{messasge.username}}</div>
+                  <div class="text">{{message.text}}</div>
+                  <div class="time">{{message.timestamp}}</div>
+                </div>
+              </div>
           </div>
-          <form id="messageForm" class="row answer-add">
-              <input type="text" id="message" class="form-control" placeholder="Write a message here" autocomplete="off">
+          <form id="messageForm" ng-submit="sendMessage()" class="row answer-add">
+              <input type="text" id="message" ng-model="messageText" class="form-control" placeholder="Write a message here" autocomplete="off">
               <span class="answer-btn answer-btn-2">
                   <input lass="answer-btn answer-btn-2" type="submit" value="" style="height:38px; width:40px"/>
               </span>

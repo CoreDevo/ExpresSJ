@@ -1,4 +1,5 @@
-$(function(){
+var esj = angular.module('esj', []);
+esj.controller('pubChatCtrl', function ($scope) {
     var socket = io.connect();
     var $messageForm = $('#messageForm');
     var $message = $('#message');
@@ -11,6 +12,8 @@ $(function(){
     var cachedUsername = document.cookie;
     var slicedUsername = parseCookies(cachedUsername)["userID"];
     var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
+    $scope.messages=[];
+    $scope.userlist=[];
 
     // console.log(slicedUsername)
 
@@ -28,16 +31,17 @@ $(function(){
         }
     });
 
-    $messageForm.submit(function(e){
-        e.preventDefault();
-        console.log('message submitted');
-        var msg = $message.val();
-        if (slicedUsername != '_admin_') {
-            msg = parseMessage($message.val());
-        }
-        socket.emit('send message', msg, roomname);
+    $scope.sendMessage = function(){
+        $scope.messageText = parseMessage($scope.messageText);
+        $scope.messages.push({
+          username:slicedUsername,
+          text:$scope.messageText,
+          direction:"right",
+          timestamp:"Just Now"
+        });
+        socket.emit('send message', $scope.messages, roomname);
         $message.val('');
-    });
+    };
 
     socket.on('connect', function(){
         console.log("first connect")
@@ -46,13 +50,14 @@ $(function(){
     });
 
     socket.on('online gods', function(godsList){
-        //TODO: ENHANCE THIS SHIT
         console.log(godsList);
-        $onlineUserList.html('<h6>Online Gods</h6>');
         var gods;
         for (var num in godsList) {
             gods = godsList[num];
-            $onlineUserList.append('<div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + gods + '</div><div class="user-description">The God</div></div>');
+            $scope.userlist.push({
+              username:gods,
+              description:'This is the description'
+            });
         }
     });
 
@@ -68,8 +73,12 @@ $(function(){
         else{
           direction = "left";
         }
-
-        $chat.append('<div class="answer ' +direction+ '"><div class="avatar"><img src="img/avatar-' + direction + '.jpg" alt="User name"></div><div class="name">' + decodeURIComponent(data.username) + '</div><div class="text">' + parseEmoji(data.msg) + '</div><div class="time">Just now</div></div>');
+        $scope.messages.push({
+          username:decodeURIComponent(data.username),
+          text:parseEmoji(data.msg),
+          direction:direction,
+          timestamp:"Just Now"
+        });
 
         $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
         console.log($('.chat-box').height())
