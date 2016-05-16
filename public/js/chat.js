@@ -1,7 +1,7 @@
 var esj = angular.module('esj', []);
 var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
 
-esj.controller('pubChatCtrl', function ($scope) {
+esj.controller('PublicChatCtrl', function ($scope) {
     var socket = io.connect();
     var $messageForm = $('#messageForm');
     var $message = $('#message');
@@ -33,20 +33,12 @@ esj.controller('pubChatCtrl', function ($scope) {
     });
 
     $scope.sendMessage = function(){
-        // $scope.messageText = parseMessage($scope.messageText);
-        // $scope.messages.push({
-        //   username:slicedUsername,
-        //   text:$scope.messageText,
-        //   direction:"right",
-        //   timestamp:"Just Now"
-        // });
-        var msg = $message.val();
-        socket.emit('send message', msg, roomname);
-        $message.val('');
+        socket.emit('send message', $scope.messageText, roomname);
+        $scope.messageText = '';
     };
 
     socket.on('connect', function(){
-        console.log("first connect")
+        console.log("first connect");
         //$onlineUserList.append('<div id="' + slicedUsername + '"><div class="user"><div class="avatar"><img src="img/userLIstAvatar.png" alt="User name"></div><div class="name">' + slicedUsername + '</div><div class="user-description">The God</div></div></div>');
 
     });
@@ -55,6 +47,7 @@ esj.controller('pubChatCtrl', function ($scope) {
         $scope.userlist = [];
         console.log(godsList);
         var gods;
+        $scope.userlist.length = 0;
         for (var num in godsList) {
             gods = godsList[num];
             $scope.userlist.push({
@@ -62,12 +55,13 @@ esj.controller('pubChatCtrl', function ($scope) {
               description:'This is the description'
             });
         }
+        $scope.$apply();
     });
 
     socket.on('new message', function(data){
       //differentiate sent and received messages
       //TODO: sent time. eg. 5 mins ago
-      console.log(data)
+      console.log(data);
       var direction;
         if(slicedUsername == data.username){
           //sent by current user
@@ -82,10 +76,11 @@ esj.controller('pubChatCtrl', function ($scope) {
           direction:direction,
           timestamp:"Just Now"
         });
-        console.log($scope.messages);
+        $scope.$apply();
+
         $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
-        console.log($('.chat-box').height())
-        console.log($('.chat-body').height())
+        console.log($('.chat-box').height());
+        console.log($('.chat-body').height());
     });
 
     socket.on('entered room', function(roomname) {
@@ -116,11 +111,10 @@ esj.controller('pubChatCtrl', function ($scope) {
     });
 
     socket.on('clear data', function(data){
-        console.log('Clear Data Arrived')
+        console.log('Clear Data Arrived');
         $onlineUserList.html('');
         $chat.val('');
     });
-
 });
 
 function inRoom(){
@@ -138,7 +132,7 @@ function parseEmoji(message){
     var parsedMessage = message;
     for (var index = 0; index < emojiList.length; ++index)  {
         var key = emojiList[index];
-        parsedMessage=parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
+        parsedMessage = parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
     }
     return parsedMessage;
 }
@@ -150,7 +144,7 @@ function parseCookies(rawCookies) {
         cookies[pair[0].trim()] = pair[1].trim();
     });
     return cookies;
-};
+}
 
 // function parseMessage(message){
 //     var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
