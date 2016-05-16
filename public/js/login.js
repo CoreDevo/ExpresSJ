@@ -46,7 +46,7 @@ function deleteAllCookies() {
 }
 
 function verifyUsername(){
-    var regex = /[!@#\$%\^\&*\)\(+=._-]{1,}/g;
+    var regex = /[!@#\$%\^\&*\)\(+=.-]{1,}/g;
       if (regex.test(username)){
         alert('no special symbol allowed');
         return;

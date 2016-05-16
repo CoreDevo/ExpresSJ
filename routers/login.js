@@ -4,6 +4,7 @@ var router = express.Router();
 var mongo = require('mongodb').MongoClient;
 var mongoService = require('../modules/mongo-service');
 var proomURL = 'mongodb://localhost:27017/PrivateRooms';
+var utils = require('../modules/utils');
 
 router.get('/', function (req, res, next) {
 	console.log("get login");
@@ -11,7 +12,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/generateAccessCode', function (req, res) {
-	var accessCode = randomBasic();
+	var accessCode = utils.generateID();
 	var ifExist = true;
 	mongo.connect(proomURL, function(err, db) {
 		if(err) {
@@ -20,12 +21,12 @@ router.post('/generateAccessCode', function (req, res) {
 			return;
 		}
 		db.listCollections().toArray(function (err, items) {
-			var array =items.map(getNames);
+			var array =items.map(function(col){return col['name'];});
 			console.log(array);
 			while(ifExist){
 				if (items.length != 0 && array.indexOf(accessCode.toString()) != -1) {
 					console.log('Re-generatng access code');
-					accessCode = randomBasic();
+					accessCode = utils.generateID();
 				} else {
 					console.log('arrived here');
 					ifExist = false;
@@ -36,14 +37,6 @@ router.post('/generateAccessCode', function (req, res) {
 		});
 	});
 });
-
-function randomBasic() {
-	return Math.floor(Math.random() * 10000000) + 1;
-}
-
-function getNames(collection) {
-	return collection['name'];
-}
 
 router.post('/', function (req, res, next) {
 	var username = req.body.name;

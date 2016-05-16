@@ -8,3 +8,11 @@ module.exports.parseCookies = function(rawCookies) {
 	});
 	return cookies;
 };
+
+module.exports.generateID = function() {
+	var id = "";
+	var dataRange = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	for( var i = 0; i < 16; i++ )
+		id += dataRange.charAt(Math.floor(Math.random() * dataRange.length));
+	return id;
+}
