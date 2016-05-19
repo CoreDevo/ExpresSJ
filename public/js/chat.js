@@ -1,36 +1,46 @@
 var esj = angular.module('esj', []);
 var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
-
+var roomname = 'lobby';
 esj.controller('PublicChatCtrl', function ($scope) {
-    var socket = io.connect();
-    var $messageForm = $('#messageForm');
-    var $message = $('#message');
-    var $chat = $('#chat-box');
-    var $roomForm = $('#roomForm');
-    var $room = $('#room');
-    var roomname = 'lobby';
-    var $onlineUserList = $('#chat-users');
-    var $topRoomname = $('#topRoomname');
-    var cachedUsername = document.cookie;
-    var slicedUsername = parseCookies(cachedUsername)["userID"];
-    $scope.messages=[];
-    $scope.userlist=[];
+  var socket = io.connect();
+  // var $messageForm = $('#messageForm');
+  // var $message = $('#message');
+  // var $chat = $('#chat-box');
+  // var $roomForm = $('#roomForm');
+  // var $room = $('#room');
 
-    // console.log(slicedUsername)
+  // var $onlineUserList = $('#chat-users');
+  // var $topRoomname = $('#topRoomname');
+  var cachedUsername = document.cookie;
+  var slicedUsername = parseCookies(cachedUsername)["userID"];
+  $scope.messages=[];
+  $scope.userlist=[];
+  $scope.topRoomname = 'Lobby';
 
-    socket.emit('first connect', roomname, cachedUsername);
+  // console.log(slicedUsername)
 
-    $roomForm.submit(function(e){
-        e.preventDefault();
-        console.log('Room Button Clicked');
-        var rawRoomname = $room.val();
-        roomname = parseRoomname(rawRoomname);
-        if(roomname != '') {
-            socket.emit('enter room', roomname);
-        } else {
-            alert('Are you trying to break?');
-        }
-    });
+  socket.emit('first connect', roomname, cachedUsername);
+
+  // $roomForm.submit(function(e){
+  //     e.preventDefault();
+  //     console.log('Room Button Clicked');
+  //     var rawRoomname = $room.val();
+  //     roomname = parseRoomname(rawRoomname);
+  //     if(roomname != '') {
+  //         socket.emit('enter room', roomname);
+  //     } else {
+  //         alert('Are you trying to break?');
+  //     }
+  // });
+
+    $scope.changeRoom = function(){
+      roomname = $scope.roomname;
+      if(roomname != '') {
+          socket.emit('enter room', roomname);
+      } else {
+          alert('Please enter a valid Room Name');
+      }
+    }
 
     $scope.sendMessage = function(){
         socket.emit('send message', $scope.messageText, roomname);
@@ -79,20 +89,23 @@ esj.controller('PublicChatCtrl', function ($scope) {
         $scope.$apply();
 
         $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
-        console.log($('.chat-box').height());
-        console.log($('.chat-body').height());
+        // console.log($('.chat-box').height());
+        // console.log($('.chat-body').height());
     });
 
     socket.on('entered room', function(roomname) {
-        $onlineUserList.empty('');
-        $chat.empty('');
+        // angular.element(document.getElementById("chat-users")).empty();
+        // angular.element(document.getElementById("chat-box")).empty();
+        $scope.messages=[];
+        $scope.userlist=[];
         console.log('Entered new room: ' + roomname);
         inRoom();
     });
 
     socket.on('new join', function(username, roomname, currentNumber){
         console.log(username + " joined");
-        $topRoomname.text(roomname + " Currently " + currentNumber);
+        $scope.topRoomname = roomname;
+        // $scope.topRoomname = roomname + ' Currently ' + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         //TODO: add number of current user to UI
         // $chat.append('<div class="well">Currently ' + currentNumber + '</div>');
@@ -101,13 +114,14 @@ esj.controller('PublicChatCtrl', function ($scope) {
     });
 
     socket.on('new leave', function(username, roomname, currentNumber){
-        $topRoomname.text(roomname + " Currently " + currentNumber);
+        $scope.topRoomname = roomname;
+        // $scope.topRoomname = roomname + " Currently " + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
         //for testing:
         // $chat.append('<div class="well">Someone left, Currently ' + currentNumber + '</div>');
 
         //remove offline users on online user list
-        $onlineUserList.remove('.'+username)
+        // $onlineUserList.remove('.'+username)
     });
 
     socket.on('clear data', function(data){
@@ -118,9 +132,9 @@ esj.controller('PublicChatCtrl', function ($scope) {
 });
 
 function inRoom(){
-    $room.val('');
+    // angular.element(document.getElementById("room")).empty();
+    document.getElementById("room").value = '';
     console.log('client side room name is ' + roomname);
-    // $chat.append('<div class="well">You are in room ' + roomname + '</div>');
 }
 
 function parseRoomname(rawRoomname) {

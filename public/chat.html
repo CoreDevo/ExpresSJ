@@ -25,7 +25,7 @@
     <div class="col-sm-3 col-xs-12">
       <div class="col-inside-lg decor-default chat" style="overflow: hidden; outline: none;" tabindex="5000">
         <h6>Online Gods</h6>
-        <div id="chat-users" class="chat-users">
+        <div id="chat-users" class="chat-users" ng-model="onlineUserList">
             <!-- online user list will be shown here -->
             <div ng-repeat="user in userlist">
               <div class="user">
@@ -41,9 +41,9 @@
     </div>
     <div class="col-sm-9 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
       <div class="col-inside-lg decor-default">
-        <div id="topRoomname">Lobby</div>
+        <div ng-model"topRoomname">{{topRoomname}}</div>
         <div id="chat-body" class="chat-body">
-          <div id="chat-box" class="chat-box">
+          <div id="chat-box" class="chat-box" ng-model="chatMessages">
               <!-- messages will be shown here -->
               <div ng-repeat="message in messages">
                 <div class="answer {{message.direction}}">
@@ -68,9 +68,9 @@
   </div>
 </div>
 
-<form class="answer-add" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
+<form class="answer-add" ng-submit="changeRoom()" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
   <label for="room">Room:</label>
-  <input type="text" id="room" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
+  <input type="text" id="room" ng-model="roomname" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
   <input type="submit" class="btn btn-primary" value="Enter Room" autocomplete="off">
 </form>
 
