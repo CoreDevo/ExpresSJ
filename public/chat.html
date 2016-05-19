@@ -10,13 +10,13 @@
 <meta http-equiv="pragma" content="no-cache">
 <title>ESJ Chat</title>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/chat.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 <script src="lib/jquery-1.12.3.min.js"></script>
 <script src="lib/jquery.nicescroll.js"></script>
 <script src="lib/socket.io-1.4.5.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script src="js/chat.js"></script>
 </head>
 <body ng-controller="PublicChatCtrl as pcCtrl">
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-9 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
+    <div class="col-md-4 pull-right chat" style="overflow: hidden; outline: none;" tabindex="5001">
       <div class="col-inside-lg decor-default">
         <div ng-model"topRoomname">{{topRoomname}}</div>
         <div id="chat-body" class="chat-body">
