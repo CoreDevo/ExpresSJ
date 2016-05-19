@@ -9,14 +9,14 @@ padding-bottom: 0;
 padding: 20px;
 }
 .chat {
-height: calc(100vh - 180px);
+height: calc(100vh - 30px);
 }
 .chat-box{
-  overflow: scroll;
-  margin-top: 30px;
+overflow: scroll;
+margin-top: 30px;
 }
 .chat-body {
-min-height: calc(100vh - 270px);
+min-height: calc(100vh - 200px);
 }
 .decor-default {
 background-color: #ffffff;
@@ -268,11 +268,10 @@ color: #fff;
 border-radius: 0;
 }
 #messageForm{
-position: fixed;
-bottom: 50px;
-width: 70%
+position: absolute;
+bottom:36px;
+width: 94%
 }
-
 .emoji{
     width: 40px;
     height: 40px;
