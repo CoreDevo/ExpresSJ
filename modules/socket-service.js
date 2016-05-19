@@ -7,7 +7,7 @@ var createSocket = function(server) {
 	io.on('connection', function (socket) {
 		connections.push(socket);
 		console.log('connected %s', connections.length);
-		
+
 		socket.on('first connect', function (roomname, rawCookies) {
 			//TODO: Temp solotion for cookie username, need better solution
 			var cookies = utils.parseCookies(rawCookies);
@@ -20,7 +20,7 @@ var createSocket = function(server) {
 			io.to(roomname).emit('online gods', roomUsers[roomname]);
 			users[0]++;
 		});
-		
+
 		socket.on('enter room', function (roomname) {
 			console.log(socket.room);
 			try {
@@ -56,24 +56,24 @@ var createSocket = function(server) {
 						});
 					} else {
 						const error_msg = 'Failed to get recent history';
-						socket.emit('new message', {msg: error_msg, username: 'ExpresSJ'});
+						socket.emit('new message', {msg: error_msg, username: 'Old Man'});
 					}
 				})
 			} catch(e) {
 				console.log(e);
 			}
 		});
-		
+
 		function leaveRoom(socket) {
 			console.log('User is leaving ' + socket.room);
 			var roomname = socket.room;
 			var username = socket.user;
 			socket.leave(socket.room);
-			
+
 			//TODO: Enhance maybe
 			roomUsers[roomname].splice(roomUsers[roomname].indexOf(username), 1);
 			console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
-			
+
 			var index = room.indexOf(roomname);
 			if (users[index] == 1 && index != 0) {
 				users.splice(index, 1);
@@ -86,19 +86,19 @@ var createSocket = function(server) {
 				io.to(roomname).emit('new leave', username, roomname, users[index]);
 			}
 		}
-		
+
 		socket.on('send message', function (data, roomname) {
 			console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
 			mongo.storeNewMessage(roomname, socket.user, data, function (succeed, err) {
 				if (succeed) {
 					io.to(roomname).emit('new message', {msg: data, username: socket.user});
 				} else {
-					const error_msg = 'An error has occurred, your message was failed to send';
-					socket.emit('new message', {msg: error_msg, username: 'ExpresSJ'});
+					const error_msg = 'An error has occurred, your message was failed to send. 志己的生命-1s';
+					socket.emit('new message', {msg: error_msg, username: '长者'});
 				}
 			})
 		});
-		
+
 		socket.on('disconnect', function (data) {
 			connections.splice(connections.indexOf(socket), 1);
 			console.log('disconnected %s', connections.length);
