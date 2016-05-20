@@ -122,8 +122,6 @@ function parseRoomname(rawRoomname) {
     return roomname;
 }
 
-//<span class="emoji emoji-sizer emoji-only" style="background-image:url(https://emoji.slack-edge.com/T1677E5QD/diao/0b78577733d410de.gif)" title="diao">:diao:</span>
-
 function parseEmoji(message){
     var parsedMessage = message;
     for (var i in emojiList)  {
