@@ -22,8 +22,8 @@
 <body ng-controller="PublicChatCtrl as pcCtrl">
 <div class="content container-fluid bootstrap snippets">
   <div class="row row-broken">
-    <div class="col-sm-3 col-xs-12">
-      <div class="col-inside-lg decor-default chat" style="overflow: hidden; outline: none;" tabindex="5000">
+    <div class="col-sm-2 visible-md-block visible-lg-block">
+      <div class="col-inside-lg decor-default chat" style="overflow: scroll; outline: none;" tabindex="5000">
         <div class="online-gods">Online Gods</div>
         <div id="chat-users" class="chat-users" ng-model="onlineUserList">
             <!-- online user list will be shown here -->
@@ -39,10 +39,10 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4 pull-right chat" style="overflow: hidden; outline: none;" tabindex="5001">
-      <div class="col-inside-lg decor-default">
+    <div class="col-md-5 col-xs-12 pull-right chat" tabindex="5001">
+      <div class="col-inside-lg decor-default chat-section">
         <div class="roomname" ng-model="topRoomname">#{{topRoomname}}</div>
-        <div id="chat-body" class="chat-body">
+        <div id="chat-body" class="chat-body" style="overflow: scroll; outline: none;">
           <div id="chat-box" class="chat-box" ng-model="chatMessages">
               <!-- messages will be shown here -->
               <div ng-repeat="message in messages">
@@ -56,13 +56,13 @@
                 </div>
               </div>
           </div>
-          <form id="messageForm" ng-submit="sendMessage()" class="row answer-add">
-              <input type="text" id="message" ng-model="messageText" class="form-control" placeholder="Write a message here" autocomplete="off">
-              <span class="answer-btn answer-btn-2">
-                  <input lass="answer-btn answer-btn-2" type="submit" value="" style="height:38px; width:40px"/>
-              </span>
-          </form>
         </div>
+        <form id="messageForm" ng-submit="sendMessage()" class="row answer-add">
+            <input type="text" id="message" ng-model="messageText" class="form-control" placeholder="Write a message here" autocomplete="off">
+            <span class="answer-btn answer-btn-2">
+                <input lass="answer-btn answer-btn-2" type="submit" value="" style="height:38px; width:40px"/>
+            </span>
+        </form>
       </div>
     </div>
   </div>
