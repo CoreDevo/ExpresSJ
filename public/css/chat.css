@@ -9,14 +9,14 @@ padding-bottom: 0;
 padding: 20px;
 }
 .chat {
-height: calc(100vh - 30px);
+height: calc(100vh - 26px);
 }
 .chat-box{
 overflow: scroll;
 margin-top: 30px;
 }
 .chat-body {
-min-height: calc(100vh - 200px);
+min-height: calc(100vh - 150px);
 }
 .decor-default {
 background-color: #ffffff;

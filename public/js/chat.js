@@ -76,9 +76,10 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
           timestamp:"Just Now"
         });
         $scope.$apply();
-        $scope.
         //TODO: REMOVE JQUERY FUNCTIONS
-        $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
+        $('.chat').animate({scrollTop:$('.chat-body').height()}, 0);
+        console.log($('.chat-body').height());
+
     });
 
     socket.on('entered room', function(roomname) {
