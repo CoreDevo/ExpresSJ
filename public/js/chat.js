@@ -1,8 +1,8 @@
 //public chat
 var esj = angular.module('esj', []);
-var emojiList = ['PDWorth','Kappa','EdwardMad','Diao','SevenLaugh'];
+var emojiList = [':pd_worth:',':kappa:',':edward_mad:',':diao:',':seven_laugh:'];
 var roomname = 'lobby';
-esj.controller('PublicChatCtrl', function ($scope) {
+esj.controller('PublicChatCtrl', function ($scope, $sce) {
     var socket = io.connect();
     var cachedUsername = document.cookie;
     var slicedUsername = parseCookies(cachedUsername)["userID"];
@@ -14,19 +14,27 @@ esj.controller('PublicChatCtrl', function ($scope) {
 
     socket.emit('first connect', roomname, cachedUsername);
 
-      $scope.changeRoom = function(){
+    $scope.changeRoom = function(){
         roomname = $scope.roomname;
         if(roomname != '') {
             socket.emit('enter room', roomname);
-          } else {
+        } else {
             alert('Please enter a valid Room Name');
-          }
         }
+    }
 
     $scope.sendMessage = function(){
-        socket.emit('send message', $scope.messageText, roomname);
-        $scope.messageText = '';
+        if($scope.messageText.trim() == "") {
+            alert("don't spam");
+        } else {
+            socket.emit('send message', $scope.messageText, roomname);
+            $scope.messageText = '';
+        }
     };
+
+    $scope.renderEmoji = function(rawText) {
+        return $sce.trustAsHtml(parseEmoji(rawText));
+    }
 
     socket.on('connect', function(){
         console.log("first connect");
@@ -63,11 +71,12 @@ esj.controller('PublicChatCtrl', function ($scope) {
         }
         $scope.messages.push({
           username:decodeURIComponent(data.username),
-          text:parseEmoji(data.msg),
+          text:data.msg,
           direction:direction,
           timestamp:"Just Now"
         });
         $scope.$apply();
+        $scope.
         //TODO: REMOVE JQUERY FUNCTIONS
         $('.chat').animate({scrollTop:$('.chat-body').height()}, 'fast');
     });
@@ -115,11 +124,16 @@ function parseRoomname(rawRoomname) {
 
 function parseEmoji(message){
     var parsedMessage = message;
-    for (var index = 0; index < emojiList.length; ++index)  {
-        var key = emojiList[index];
-        parsedMessage = parsedMessage.split(key).join('<img src="img/emoji/'+key+'.jpg" title='+key+' alt='+key+' class="emoji">');
+    for (var i in emojiList)  {
+        var key = emojiList[i];
+        parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
     }
     return parsedMessage;
+}
+
+function processImageSpan(key) {
+    var name = key.replace(/:/g, "");
+    return '<img class="emoji" src="../img/emoji/' + name + '.jpg"name</img>';
 }
 
 function parseCookies(rawCookies) {
