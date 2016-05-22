@@ -71,7 +71,9 @@ var createSocket = function(server) {
 			socket.leave(socket.room);
 
 			//TODO: Enhance maybe
-			roomUsers[roomname].splice(roomUsers[roomname].indexOf(username), 1);
+			if (roomUsers[roomname]) {
+				roomUsers[roomname].splice(roomUsers[roomname].indexOf(username), 1);
+			}
 			console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
 
 			var index = room.indexOf(roomname);
