@@ -239,9 +239,6 @@ border-left-width: 12px;
     -webkit-appearance: none;
     border-radius: 0;
 }
-.chat-section .answer-add .answer-btn-1 {
-    right: 56px;
-}
 .chat-section .answer-add .answer-btn {
     display: block;
     cursor: pointer;
@@ -251,7 +248,8 @@ border-left-width: 12px;
     top: 50%;
     margin-top: -18px;
 }
-.chat-section .answer-add .answer-btn-2 {
+.chat-section .answer-add .answer-btn-send {
+    background: url("../img/icons/send.png") 50% 50% no-repeat;
     right: 20px;
 }
 .chat input::-webkit-input-placeholder {
