@@ -22,7 +22,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         } else {
             alert('Please enter a valid Room Name');
         }
-    }
+    };
 
     $scope.sendMessage = function(){
         if($scope.messageText.trim() == "") {
@@ -93,13 +93,24 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
 
     socket.on('new join', function(username, roomname, currentNumber){
         console.log(username + " joined");
+        console.log($scope.userlist);
         $scope.topRoomname = roomname;
+        $scope.userlist.push({
+            username:username,
+            description:'This is the description'
+        });
+        $scope.$apply();
         // $scope.topRoomname = roomname + ' Currently ' + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
     });
 
     socket.on('new leave', function(username, roomname, currentNumber){
+        console.log(username + " left");
         $scope.topRoomname = roomname;
+        $scope.userlist.removeItem(function(item) {
+           return item.username === username;
+        });
+        $scope.$apply();
         // $scope.topRoomname = roomname + " Currently " + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
     });
@@ -146,6 +157,13 @@ function parseCookies(rawCookies) {
     return cookies;
 }
 
+Array.prototype.removeItem = function(condition) {
+    for(var i = 0; i < this.length; i++) {
+        if(condition(this[i])) {
+            this.splice(i, 1);
+        }
+    }
+};
 // function parseMessage(message){
 //     var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
 //         return '&#'+i.charCodeAt(0)+';';

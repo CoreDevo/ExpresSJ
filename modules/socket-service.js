@@ -17,8 +17,10 @@ var createSocket = function(server) {
 			socket.room = roomname;
 			socket.user = username;
 			console.log(username + " joined into Room: " + roomname);
-			io.to(roomname).emit('online gods', roomUsers[roomname]);
+			socket.emit('online gods', roomUsers[roomname]);
+			roomUsers['lobby'].push(username);
 			users[0]++;
+			io.to(roomname).emit('new join', username, roomname, users[0]);
 		});
 
 		socket.on('enter room', function (roomname) {
@@ -82,7 +84,6 @@ var createSocket = function(server) {
 				console.log('Room destroyed');
 			} else {
 				users[index]--;
-				io.to(roomname).emit('online gods', roomUsers[socket.room]);
 				io.to(roomname).emit('new leave', username, roomname, users[index]);
 			}
 		}
