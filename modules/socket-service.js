@@ -42,13 +42,11 @@ var createSocket = function(server) {
 				socket.join(roomname);
 				socket.emit('entered room', roomname);
 				users[room.indexOf(roomname)]++;
-
+				socket.emit('online gods', roomUsers[roomname]);
 				roomUsers[roomname].push(socket.user);
-				io.to(roomname).emit('online gods', roomUsers[roomname]);
 				console.log('User in ' + roomname + ' : ' + roomUsers[roomname]);
-
 				var currentNumber = users[room.indexOf(roomname)];
-				console.log(socket.user + " joined into Room: " + roomname)
+				console.log(socket.user + " joined into Room: " + roomname);
 				//TODO: emmit online user list array as well
 				io.to(roomname).emit('new join', socket.user, roomname, currentNumber);
 				mongo.getRecentMessage(roomname, function (succeed, msgs, err) {

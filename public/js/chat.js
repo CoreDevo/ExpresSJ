@@ -107,9 +107,13 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
     socket.on('new leave', function(username, roomname, currentNumber){
         console.log(username + " left");
         $scope.topRoomname = roomname;
-        $scope.userlist.removeItem(function(item) {
-           return item.username === username;
-        });
+        //TODO: Probably using helper
+        for(var i = 0; i < $scope.userlist.length; i++) {
+            if (($scope.userlist[i].username === username)) {
+                $scope.userlist.splice(i, 1);
+                i--;
+            }
+        }
         $scope.$apply();
         // $scope.topRoomname = roomname + " Currently " + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
@@ -157,13 +161,6 @@ function parseCookies(rawCookies) {
     return cookies;
 }
 
-Array.prototype.removeItem = function(condition) {
-    for(var i = 0; i < this.length; i++) {
-        if(condition(this[i])) {
-            this.splice(i, 1);
-        }
-    }
-};
 // function parseMessage(message){
 //     var encodedMsg = message.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
 //         return '&#'+i.charCodeAt(0)+';';
