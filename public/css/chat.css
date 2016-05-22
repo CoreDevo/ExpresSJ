@@ -293,3 +293,7 @@ border-left-width: 12px;
     font-size: 15px;
     margin-bottom: 10px;
 }
+
+.enter-room-button {
+    margin-bottom: 5px;
+}

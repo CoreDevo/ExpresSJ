@@ -25,7 +25,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
     };
 
     $scope.sendMessage = function(){
-        if($scope.messageText.trim() == "") {
+        if($scope.messageText == undefined || $scope.messageText.trim() == "") {
             alert("don't spam");
         } else {
             socket.emit('send message', $scope.messageText, roomname);
