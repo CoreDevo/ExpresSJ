@@ -22,7 +22,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         } else {
             alert('Please enter a valid Room Name');
         }
-    }
+    };
 
     $scope.sendMessage = function(){
         if($scope.messageText.trim() == "") {
@@ -93,13 +93,28 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
 
     socket.on('new join', function(username, roomname, currentNumber){
         console.log(username + " joined");
+        console.log($scope.userlist);
         $scope.topRoomname = roomname;
+        $scope.userlist.push({
+            username:username,
+            description:'This is the description'
+        });
+        $scope.$apply();
         // $scope.topRoomname = roomname + ' Currently ' + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
     });
 
     socket.on('new leave', function(username, roomname, currentNumber){
+        console.log(username + " left");
         $scope.topRoomname = roomname;
+        //TODO: Probably using helper
+        for(var i = 0; i < $scope.userlist.length; i++) {
+            if (($scope.userlist[i].username === username)) {
+                $scope.userlist.splice(i, 1);
+                i--;
+            }
+        }
+        $scope.$apply();
         // $scope.topRoomname = roomname + " Currently " + currentNumber;
         console.log('In ' + roomname + ', Currently ' + currentNumber);
     });
