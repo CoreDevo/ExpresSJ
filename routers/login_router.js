@@ -42,7 +42,6 @@ router.post('/', function (req, res, next) {
 	var username = req.body.name;
 	console.log("new user name: " + username)
 	//TODO: check if username exists
-	roomUsers['lobby'].push(username);
 	console.log('User in lobby: ' + roomUsers['lobby']);
 	console.log(req.body.name + " cached");
 	res.cookie("userID", req.body.name, {maxAge: 1000*60*60*24*30});
