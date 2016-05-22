@@ -91,13 +91,23 @@ var createSocket = function(server) {
 			console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
 			mongo.storeNewMessage(roomname, socket.user, data, function (succeed, err) {
 				if (succeed) {
-					io.to(roomname).emit('new message', {msg: data, username: socket.user});
+					io.to(roomname).emit('new message', {msg: parseMessage(data), username: socket.user});
 				} else {
 					const error_msg = 'An error has occurred, your message was failed to send. 志己的生命-1s';
 					socket.emit('new message', {msg: error_msg, username: '长者'});
 				}
 			})
 		});
+
+		function parseMessage(data) {
+			var d = data.split('');
+			var index = 0;
+			while (index < Math.floor(d.length / 30)) {
+				d.splice((index+1)*30+index, 0, '\n');
+				index++;
+			}
+			return d.join('');
+		}
 
 		socket.on('disconnect', function (data) {
 			connections.splice(connections.indexOf(socket), 1);
