@@ -43,7 +43,7 @@
       <div class="col-inside-lg decor-default chat-section">
         <div class="roomname" ng-model="topRoomname">#{{topRoomname}}</div>
         <div id="chat-body" class="chat-body" style="overflow: scroll; outline: none;">
-          <div id="chat-box" class="chat-box" ng-model="chatMessages">
+          <div id="chat-box" class="chat-box">
               <!-- messages will be shown here -->
               <div ng-repeat="message in messages">
                 <div class="answer {{message.direction}}">

@@ -16,7 +16,7 @@ overflow: scroll;
 margin-top: 30px;
 }
 .chat-body {
-min-height: calc(100vh - 150px);
+min-height: calc(100vh - 160px);
 }
 .decor-default {
 background-color: #ffffff;
