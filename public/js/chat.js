@@ -92,7 +92,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         });
         $scope.$apply();
         //TODO: REMOVE JQUERY FUNCTIONS
-        $('.chat').animate({scrollTop:$('.chat-body').height()}, 0);
+        $(".chat").animate({scrollTop:$(".chat-body").height()}, 0);
         //DEBUGGING:
         // console.log($('.chat-body').height());
 
