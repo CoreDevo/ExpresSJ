@@ -79,39 +79,39 @@
         <form id="messageForm" ng-submit="sendMessage()" class="row answer-add">
             <div class="input-group">
                 <input type="text" id="message" ng-model="messageText" class="form-control" placeholder="Write a message here" autocomplete="off">
-                <span class="input-group-addon" rel="popover">
-                    <span class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#videoShare"></span>
+                <span class="input-group-addon" data-toggle="modal" data-target="#videoShare">
+                    <span class="glyphicon glyphicon-plus"></span>
                 </span>
             </div>
         </form>
       </div>
     </div>
   </div>
-</div>
-
-<form class="answer-add" ng-submit="changeRoom()" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
-  <label for="room">Room:</label>
-  <input type="text" id="room" ng-model="roomname" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
-  <input type="submit" class="btn btn-primary enter-room-button" value="Enter Room" autocomplete="off">
-</form>
-<!-- modal -->
-<div id="videoShare" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Share Video</h4>
-            </div>
-            <div class="modal-body">
-                <label>Copy & Paste the video link to below </label>
-                <input type="text" class="form-control" placeholder="url goes here">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
-            </div>
-        </div>
-
-    </div>
+  <form class="answer-add" ng-submit="changeRoom()" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
+      <label for="room">Room:</label>
+      <input type="text" id="room" ng-model="roomname" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
+      <input type="submit" class="btn btn-primary enter-room-button" value="Enter Room" autocomplete="off">
+  </form>
+  <!-- modal -->
+  <div id="videoShare" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Share Video</h4>
+              </div>
+              <form name="videoShare" ng-submit="submitVideo()">
+                  <div class="modal-body">
+                      <label>Copy & Paste the video link to below </label>
+                      <input type="url" class="form-control" ng-model="videoShare.videoUrl" placeholder="url goes here">
+                  </div>
+                  <div class="modal-footer">
+                      <input type="submit" class="btn btn-default" data-dismiss="modal">
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
 </div>
 <script type="text/javascript">
 	$(function() {
