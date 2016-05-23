@@ -50,8 +50,8 @@
                       <img src="img/avatar-{{item.direction}}.jpg" alt="{{item.username}}">
                   </div>
                   <div class="name">{{item.username}}</div>
-                  <!--<div class="text" ng-bind-html="renderEmoji(message.text)">{{item.text}}</div>-->
-                  <div class="text">{{item.text}}</div>
+                  <div class="text" ng-bind-html="renderEmoji(item.text)">{{item.text}}</div>
+                  <!--<div class="text">{{item.text}}</div>-->
                   <div class="time">{{item.timestamp}}</div>
               </div>
           </div>
