@@ -17,6 +17,7 @@
     <script src="lib/jquery-1.12.3.min.js"></script>
     <script src="lib/jquery.nicescroll.min.js"></script>
     <script src="lib/socket.io-1.4.5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
 </head>
@@ -70,7 +71,7 @@
                   </div>
                   <div class="name">{{message.username}}</div>
                   <div class="text" ng-bind-html="renderEmoji(message.text)">{{message.text}}</div>
-                  <div class="time">{{message.timestamp}}</div>
+                  <div class="time">{{parseTimestamp(message.timestamp)}}</div>
                 </div>
               </div>
           </div>
