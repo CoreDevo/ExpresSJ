@@ -1,31 +1,31 @@
-$(document).ready( function() {
+$(document).ready( () => {
     deleteAllCookies();
 
-    var path = 'http://' + $(location).attr('host');
-    $("#login-public").click( function() {
-      var username = $("#username").val();
+    const path = `http://${$(location).attr('host')}`;
+    $("#login-public").click( () => {
+      const username = $("#username").val();
       // var password = $("#password").val();
       verifyUsername();
         $.ajax({
             type: 'POST',
-            url: path + '/login',
+            url: `${path}/login`,
             data: {name: username},
-            success: function(content) {
-                window.location.href = path + '/chat';
+            success(content) {
+                window.location.href = `${path}/chat`;
             }
         });
         return false; // to stop link
     });
 
-    $("#create-accessCode").click( function() {
-      var username = $("#username").val();
+    $("#create-accessCode").click( () => {
+      const username = $("#username").val();
       // var password = $("#password").val();
       verifyUsername();
         $.ajax({
             type: 'POST',
-            url: path + '/login/generateAccessCode',
+            url: `${path}/login/generateAccessCode`,
             data: {name: username},
-            success: function(data) {
+            success(data) {
                 $("#username").val(username);
                 $("#accessCode").val(data.accessCode);
             }
@@ -35,18 +35,18 @@ $(document).ready( function() {
 });
 
 function deleteAllCookies() {
-    var cookies = document.cookie.split(";");
+    const cookies = document.cookie.split(";");
 
-    for (var i = 0; i < cookies.length; i++) {
-    	var cookie = cookies[i];
-    	var eqPos = cookie.indexOf("=");
-    	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    for (let i = 0; i < cookies.length; i++) {
+    	const cookie = cookies[i];
+    	const eqPos = cookie.indexOf("=");
+    	const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    	document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
 }
 
 function verifyUsername(){
-    var regex = /[!@#\$%\^\&*\)\(+=.-]{1,}/g;
+    const regex = /[!@#\$%\^\&*\)\(+=.-]{1,}/g;
       if (regex.test(username)){
         alert('no special symbol allowed');
         return;

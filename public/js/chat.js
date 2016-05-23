@@ -1,6 +1,6 @@
 //public chat
-var esj = angular.module('esj', []);
-var emojiList = {
+const esj = angular.module('esj', []);
+const emojiList = {
     ':pd_worth:': 'pd_worth.jpg',
     ':kappa:': 'kappa.jpg',
     ':edward_mad:': 'edward_mad.jpg',
@@ -17,11 +17,11 @@ var emojiList = {
     ':bu_nolisten:': 'bu_nolisten.jpg',
 
 };
-var roomname = 'lobby';
-esj.controller('PublicChatCtrl', function ($scope, $sce) {
-    var socket = io.connect();
-    var cachedUsername = document.cookie;
-    var slicedUsername = parseCookies(cachedUsername)["userID"];
+let roomname = 'lobby';
+esj.controller('PublicChatCtrl', ($scope, $sce) => {
+    const socket = io.connect();
+    const cachedUsername = document.cookie;
+    const slicedUsername = parseCookies(cachedUsername)["userID"];
     $scope.messages=[];
     $scope.userlist=[];
     $scope.topRoomname = 'Lobby';
@@ -31,7 +31,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
 
     socket.emit('first connect', roomname, cachedUsername);
 
-    $scope.changeRoom = function(){
+    $scope.changeRoom = () => {
         roomname = $scope.roomname;
         if(roomname != '') {
             socket.emit('enter room', roomname);
@@ -40,7 +40,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         }
     };
 
-    $scope.sendMessage = function(){
+    $scope.sendMessage = () => {
         if($scope.messageText == undefined || $scope.messageText.trim() == "") {
             alert("don't spam");
         } else {
@@ -49,20 +49,18 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         }
     };
 
-    $scope.renderEmoji = function(rawText) {
-        return $sce.trustAsHtml(parseEmoji(rawText));
-    }
+    $scope.renderEmoji = rawText => $sce.trustAsHtml(parseEmoji(rawText))
 
-    socket.on('connect', function(){
+    socket.on('connect', () => {
         console.log("first connect");
     });
 
-    socket.on('online gods', function(godsList){
+    socket.on('online gods', godsList => {
         $scope.userlist = [];
         console.log(godsList);
-        var gods;
+        let gods;
         $scope.userlist.length = 0;
-        for (var num in godsList) {
+        for (const num in godsList) {
             gods = godsList[num];
             $scope.userlist.push({
               username:gods,
@@ -72,11 +70,11 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         $scope.$apply();
     });
 
-    socket.on('new message', function(data){
+    socket.on('new message', data => {
         //differentiate sent and received messages
         //TODO: sent time. eg. 5 mins ago
         console.log(data);
-        var direction;
+        let direction;
         if(slicedUsername == data.username){
           //sent by current user
           direction = "right";
@@ -87,7 +85,7 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         $scope.messages.push({
           username:decodeURIComponent(data.username),
           text:data.msg,
-          direction:direction,
+          direction,
           timestamp:"Just Now"
         });
         $scope.$apply();
@@ -98,33 +96,33 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
 
     });
 
-    socket.on('entered room', function(roomname) {
+    socket.on('entered room', roomname => {
         $scope.messages=[];
         $scope.userlist=[];
-        console.log('Entered new room: ' + roomname);
+        console.log(`Entered new room: ${roomname}`);
         document.getElementById("room").value = '';
-        console.log('client side room name is ' + roomname);
+        console.log(`client side room name is ${roomname}`);
         // inRoom();
     });
 
-    socket.on('new join', function(username, roomname, currentNumber){
-        console.log(username + " joined");
+    socket.on('new join', (username, roomname, currentNumber) => {
+        console.log(`${username} joined`);
         console.log($scope.userlist);
         $scope.topRoomname = roomname;
         $scope.userlist.push({
-            username:username,
+            username,
             description:'This is the description'
         });
         $scope.$apply();
         // $scope.topRoomname = roomname + ' Currently ' + currentNumber;
-        console.log('In ' + roomname + ', Currently ' + currentNumber);
+        console.log(`In ${roomname}, Currently ${currentNumber}`);
     });
 
-    socket.on('new leave', function(username, roomname, currentNumber){
-        console.log(username + " left");
+    socket.on('new leave', (username, roomname, currentNumber) => {
+        console.log(`${username} left`);
         $scope.topRoomname = roomname;
         //TODO: Probably using helper
-        for(var i = 0; i < $scope.userlist.length; i++) {
+        for(let i = 0; i < $scope.userlist.length; i++) {
             if (($scope.userlist[i].username === username)) {
                 $scope.userlist.splice(i, 1);
                 i--;
@@ -132,10 +130,10 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
         }
         $scope.$apply();
         // $scope.topRoomname = roomname + " Currently " + currentNumber;
-        console.log('In ' + roomname + ', Currently ' + currentNumber);
+        console.log(`In ${roomname}, Currently ${currentNumber}`);
     });
 
-    socket.on('clear data', function(data){
+    socket.on('clear data', data => {
         console.log('Clear Data Arrived');
         $onlineUserList.html('');
         $chat.val('');
@@ -150,13 +148,13 @@ esj.controller('PublicChatCtrl', function ($scope, $sce) {
 // }
 
 function parseRoomname(rawRoomname) {
-    var roomname = rawRoomname.trim().split(' ').join('');
+    const roomname = rawRoomname.trim().split(' ').join('');
     return roomname;
 }
 
 function parseEmoji(message){
-    var parsedMessage = message;
-    for (var key in emojiList) {
+    let parsedMessage = message;
+    for (const key in emojiList) {
         if (emojiList.hasOwnProperty(key)) {
             parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
         }
@@ -166,13 +164,13 @@ function parseEmoji(message){
 }
 
 function processImageSpan(key) {
-    return '<img class="emoji" src="../img/emoji/' + emojiList[key] + '"</img>';
+    return `<img class="emoji" src="../img/emoji/${emojiList[key]}"</img>`;
 }
 
 function parseCookies(rawCookies) {
-    var cookies = {};
-    rawCookies.split(';').forEach(function(element) {
-        var pair = element.split('=');
+    const cookies = {};
+    rawCookies.split(';').forEach(element => {
+        const pair = element.split('=');
         cookies[pair[0].trim()] = pair[1].trim();
     });
     return cookies;
