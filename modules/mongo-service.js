@@ -5,17 +5,12 @@ var usersURL = 'mongodb://localhost:27017/Users';
 var chatlogURL = 'mongodb://localhost:27017/ChatLogs';
 var proomURL = 'mongodb://localhost:27017/PrivateRooms';
 
-var storeNewMessage = function(roomName, username, msg, callback) {
+var storeNewMessage = function(roomName, message, callback) {
 	mongo.connect(chatlogURL, function(err, db) {
 		if(err) {
 			callback(false, err);
 			return;
 		}
-		var message = {
-			'username':username,
-			'message':msg,
-			'time': +new Date()
-		};
 		db.collection(roomName).insertOne(message, function(err, res) {
 			db.close();
 			if(err) {
