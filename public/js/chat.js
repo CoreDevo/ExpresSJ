@@ -46,12 +46,19 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 
     $scope.changeRoom = () => {
         roomname = $scope.roomname;
-        if(roomname != '') {
+        if(roomname) {
             socket.emit('enter room', roomname);
         } else {
             alert('Please enter a valid Room Name');
         }
     };
+
+    $scope.submitVideo = () => {
+        url = $scope.videoUrl;
+        if(url){
+            alert(url);
+        }
+    }
 
     $scope.sendMessage = () => {
         if($scope.messageText == undefined || $scope.messageText.trim() == "") {
