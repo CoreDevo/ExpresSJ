@@ -29,7 +29,16 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 
     $scope.pinnedItem = [];
     $scope.centerAnchor = true;
-
+    $scope.parseTimestamp = function(timestamp) {
+        var time = moment(timestamp);
+        if(moment().diff(time) > 3600000) return time.calendar(null, {
+            sameDay: '[Today at] LT',
+            lastDay: '[Yesterday at] LT',
+            lastWeek: 'ddd [at] LT',
+            sameElse: 'DD/MM/YYYY HH:mm'
+        });
+        else return time.fromNow();
+    };
     //DEBUGGING:
     // console.log(slicedUsername)
 
@@ -89,8 +98,8 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         $scope.messages.push({
           username:decodeURIComponent(data.username),
           text:data.msg,
-          direction,
-          timestamp:"Just Now"
+          direction:direction,
+          timestamp:data.timestamp
         });
         $scope.$apply();
         //TODO: REMOVE JQUERY FUNCTIONS
