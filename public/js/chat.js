@@ -1,6 +1,22 @@
 //public chat
 var esj = angular.module('esj', []);
-var emojiList = [':pd_worth:',':kappa:',':edward_mad:',':diao:',':seven_laugh:'];
+var emojiList = {
+    ':pd_worth:': 'pd_worth.jpg',
+    ':kappa:': 'kappa.jpg',
+    ':edward_mad:': 'edward_mad.jpg',
+    ':diao:': 'diao.gif',
+    ':van_smile:': 'van_smile.jpg',
+    ':ning_what:': 'ning_what.jpg',
+    ':sorry:': 'sorry.jpg',
+    ':rhine:': 'rhine.gif',
+    ':gay:': 'seven_laugh.gay.png',
+    ':edward_scary:': 'edward_scary.png',
+    ':edward_trash:': 'edward_trash.png',
+    ':miao:': 'miao.jpg',
+    ':hhj_shoot:': 'hhj_shoot.jpg',
+    ':bu_nolisten:': 'bu_nolisten.jpg',
+
+};
 var roomname = 'lobby';
 esj.controller('PublicChatCtrl', function ($scope, $sce) {
     var socket = io.connect();
@@ -140,16 +156,17 @@ function parseRoomname(rawRoomname) {
 
 function parseEmoji(message){
     var parsedMessage = message;
-    for (var i in emojiList)  {
-        var key = emojiList[i];
-        parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
+    for (var key in emojiList) {
+        if (emojiList.hasOwnProperty(key)) {
+            parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
+        }
     }
+
     return parsedMessage;
 }
 
 function processImageSpan(key) {
-    var name = key.replace(/:/g, "");
-    return '<img class="emoji" src="../img/emoji/' + name + '.jpg"name</img>';
+    return '<img class="emoji" src="../img/emoji/' + emojiList[key] + '"</img>';
 }
 
 function parseCookies(rawCookies) {
