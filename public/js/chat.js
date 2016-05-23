@@ -9,7 +9,7 @@ const emojiList = {
     ':ning_what:': 'ning_what.jpg',
     ':sorry:': 'sorry.jpg',
     ':rhine:': 'rhine.gif',
-    ':gay:': 'seven_laugh.gay.png',
+    ':gay:': 'seven_laugh.png',
     ':edward_scary:': 'edward_scary.png',
     ':edward_trash:': 'edward_trash.png',
     ':miao:': 'miao.jpg',
@@ -181,7 +181,7 @@ function parseEmoji(message){
     let parsedMessage = message;
     for (let key in emojiList) {
         if (emojiList.hasOwnProperty(key)) {
-            // parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
+            parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
         }
     }
 
