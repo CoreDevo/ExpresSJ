@@ -1,5 +1,9 @@
 //public chat
+<<<<<<< HEAD
+const esj = angular.module('esj', ['ngDraggable']);
+=======
 const esj = angular.module('esj', []);
+>>>>>>> CoreDevo/master
 const emojiList = {
     ':pd_worth:': 'pd_worth.jpg',
     ':kappa:': 'kappa.jpg',
@@ -25,6 +29,9 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
     $scope.messages = [];
     $scope.userlist = [];
     $scope.topRoomname = 'Lobby';
+
+    $scope.pinnedItem = [];
+    $scope.centerAnchor = true;
 
     //DEBUGGING:
     // console.log(slicedUsername)
@@ -138,6 +145,28 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         $onlineUserList.html('');
         $chat.val('');
     });
+
+    //DRAG AMD DROP controls
+    //TODO: FIX $scope.pinnedItem binding $scope.messages problem
+    //TODO: ENHANCE reordering pinnedItem
+    $scope.toggleCenterAnchor = () => {
+        $scope.centerAnchor = !$scope.centerAnchor;
+    }
+
+    $scope.onDropComplete = (data, event) => {
+        let index = $scope.pinnedItem.indexOf(data);
+        if (index == -1){
+            $scope.pinnedItem.push(data);
+            console.log($scope.messages);
+        }
+    }
+
+    $scope.onDragSuccess = (data, event) => {
+        let index = $scope.pinnedItem.indexOf(data);
+        if (index > -1) {
+            $scope.pinnedItem.splice(index, 1);
+        }
+    }
 });
 
 //NOTE it doesnt do any huge stuff, temp commented

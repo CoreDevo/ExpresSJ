@@ -44,39 +44,6 @@ body{
     top: 0;
     left: 0;
 }
-.chat .avatar{
-    width: 40px;
-    height: 40px;
-    position: absolute;
-}
-.chat .avatar img {
-    display: block;
-    border-radius: 20px;
-    height: 100%;
-}
-.chat .avatar .status.off {
-    border: 1px solid #5a5a5a;
-    background: #ffffff;
-}
-.chat .avatar .status.online {
-    background: #4caf50;
-}
-.chat .avatar .status.busy {
-    background: #ffc107;
-}
-.chat .avatar .status.offline {
-    background: #ed4e6e;
-}
-.chat-users .user .status {
-    bottom: 0;
-    left: 28px;
-}
-.chat .avatar .status {
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    position: absolute;
-}
 .chat-users .user .name {
     font-size: 14px;
     font-weight: bold;
@@ -108,44 +75,38 @@ body{
     font-size: 20px;
     margin: 0 0 20px;
 }
-.chat-body .answer.left {
+.chat-body .answer.left, .dnd-section .answer.left  {
     padding: 0 0 0 58px;
     text-align: left;
     float: left;
 }
-.chat-body .answer {
+.chat-body .answer, .dnd-section .answer {
     position: relative;
     max-width: 600px;
     overflow: hidden;
     clear: both;
 }
-.chat-body .answer.left .avatar {
+.chat-body .answer.left .avatar, .dnd-section .answer.left .avatar {
     left: 0;
 }
-.chat-body .answer .avatar {
+.chat-body .answer .avatar, .dnd-section .answer .avatar {
     bottom: 36px;
 }
-.chat .avatar {
+.chat .avatar, .dnd-section .avatar {
     width: 40px;
     height: 40px;
     position: absolute;
 }
-.chat .avatar img {
+.chat .avatar img , .dnd-section .avatar img{
     display: block;
     border-radius: 20px;
     height: 100%;
 }
-.chat-body .answer .name {
+.chat-body .answer .name, .dnd-section .answer .name {
     font-size: 14px;
     line-height: 36px;
 }
-.chat-body .answer.left .avatar .status {
-    right: 4px;
-}
-.chat-body .answer .avatar .status {
-    bottom: 0;
-}
-.chat-body .answer.left .text {
+.chat-body .answer.left .text, .dnd-section .answer.left .text {
     margin-right:150px;
     /*with text overflow scroll*/
     /*padding: 10px 20px 10px 20px;*/
@@ -155,7 +116,7 @@ body{
     color: #333333;
     border-radius: 8px 8px 8px 0;
 }
-.chat-body .answer .text {
+.chat-body .answer .text, .dnd-section .answer .text {
     font-size: 16px;
     line-height: 26px;
     position: relative;
@@ -165,7 +126,7 @@ left: -30px;
 border-right-color: #ebebeb;
 border-right-width: 12px;
 }*/
-.chat-body .answer .text:before {
+.chat-body .answer .text:before, .dnd-section .answer .text:before {
     content: '';
     display: block;
     position: absolute;
@@ -173,30 +134,27 @@ border-right-width: 12px;
     border: 18px solid transparent;
     border-bottom-width: 0;
 }
-.chat-body .answer.left .time {
+.chat-body .answer.left .time, .dnd-section .answer.left .time {
     padding-left: 12px;
     color: #333333;
 }
-.chat-body .answer .time {
+.chat-body .answer .time, .dnd-section .answer .time {
     font-size: 16px;
     line-height: 36px;
     position: relative;
     padding-bottom: 1px;
 }
 /*RIGHT*/
-.chat-body .answer.right {
+.chat-body .answer.right, .dnd-section .answer.right {
     padding: 0 58px 0 0;
     text-align: right;
     float: right;
 }
 
-.chat-body .answer.right .avatar {
+.chat-body .answer.right .avatar, .dnd-section .answer.right .avatar {
     right: 0;
 }
-.chat-body .answer.right .avatar .status {
-    left: 4px;
-}
-.chat-body .answer.right .text {
+.chat-body .answer.right .text, .dnd-section .answer.right .text {
     margin-left:150px;
     /*with text overflow scroll*/
     /*padding: 10px 20px 0px 20px;*/
@@ -211,7 +169,7 @@ right: -30px;
 border-left-color: #7266ba;
 border-left-width: 12px;
 }*/
-.chat-body .answer.right .time {
+.chat-body .answer.right .time, .dnd-section .answer.right .time {
     padding-right: 12px;
     color: #333333;
 }
