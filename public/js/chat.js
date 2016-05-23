@@ -1,5 +1,5 @@
 //public chat
-const esj = angular.module('esj', []);
+const esj = angular.module('esj', ['ngDraggable']);
 const emojiList = {
     ':pd_worth:': 'pd_worth.jpg',
     ':kappa:': 'kappa.jpg',
@@ -22,9 +22,12 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
     const socket = io.connect();
     const cachedUsername = document.cookie;
     const slicedUsername = parseCookies(cachedUsername)["userID"];
-    $scope.messages=[];
-    $scope.userlist=[];
+    $scope.messages = [];
+    $scope.userlist = [];
     $scope.topRoomname = 'Lobby';
+
+    $scope.pinnedItem = [];
+    $scope.centerAnchor = true;
 
     //DEBUGGING:
     // console.log(slicedUsername)
@@ -60,7 +63,7 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         console.log(godsList);
         let gods;
         $scope.userlist.length = 0;
-        for (const num in godsList) {
+        for (let num in godsList) {
             gods = godsList[num];
             $scope.userlist.push({
               username:gods,
@@ -138,6 +141,28 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         $onlineUserList.html('');
         $chat.val('');
     });
+
+    //DRAG AMD DROP controls
+    //TODO: FIX $scope.pinnedItem binding $scope.messages problem
+    //TODO: ENHANCE reordering pinnedItem
+    $scope.toggleCenterAnchor = () => {
+        $scope.centerAnchor = !$scope.centerAnchor;
+    }
+
+    $scope.onDropComplete = (data, event) => {
+        let index = $scope.pinnedItem.indexOf(data);
+        if (index == -1){
+            $scope.pinnedItem.push(data);
+            console.log($scope.messages);
+        }
+    }
+
+    $scope.onDragSuccess = (data, event) => {
+        let index = $scope.pinnedItem.indexOf(data);
+        if (index > -1) {
+            $scope.pinnedItem.splice(index, 1);
+        }
+    }
 });
 
 //NOTE it doesnt do any huge stuff, temp commented
@@ -148,15 +173,15 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 // }
 
 function parseRoomname(rawRoomname) {
-    const roomname = rawRoomname.trim().split(' ').join('');
+    let roomname = rawRoomname.trim().split(' ').join('');
     return roomname;
 }
 
 function parseEmoji(message){
     let parsedMessage = message;
-    for (const key in emojiList) {
+    for (let key in emojiList) {
         if (emojiList.hasOwnProperty(key)) {
-            parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
+            // parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
         }
     }
 
@@ -168,9 +193,9 @@ function processImageSpan(key) {
 }
 
 function parseCookies(rawCookies) {
-    const cookies = {};
+    let cookies = {};
     rawCookies.split(';').forEach(element => {
-        const pair = element.split('=');
+        let pair = element.split('=');
         cookies[pair[0].trim()] = pair[1].trim();
     });
     return cookies;

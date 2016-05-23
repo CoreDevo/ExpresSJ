@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="lib/ngDraggable.js"></script>
     <script src="lib/jquery-1.12.3.min.js"></script>
     <script src="lib/jquery.nicescroll.js"></script>
     <script src="lib/socket.io-1.4.5.js"></script>
@@ -41,8 +42,19 @@
     </div>
     <div class="col-md-4 visible-md-block visible-lg-block">
       <!-- drag and drop -->
-      <div class="col-inside-lg decor-default dnd-section" tabindex="5002">
+      <div class="col-inside-lg decor-default dnd-section" tabindex="5002" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
         <div class="dnd-title">Drag and Drop to here</div>
+          <div ng-repeat="item in pinnedItem">
+              <div class="answer {{item.direction}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" ng-center-anchor="{{centerAnchor}}">
+                  <div class="avatar">
+                      <img src="img/avatar-{{item.direction}}.jpg" alt="{{item.username}}">
+                  </div>
+                  <div class="name">{{item.username}}</div>
+                  <!--<div class="text" ng-bind-html="renderEmoji(message.text)">{{item.text}}</div>-->
+                  <div class="text">{{item.text}}</div>
+                  <div class="time">{{item.timestamp}}</div>
+              </div>
+          </div>
       </div>
     </div>
     <div class="col-md-5 col-xs-12 pull-right chat" tabindex="5001">
@@ -52,7 +64,7 @@
           <div id="chat-box" class="chat-box">
               <!-- messages will be shown here -->
               <div ng-repeat="message in messages">
-                <div class="answer {{message.direction}}">
+                <div class="answer {{message.direction}}" ng-drag="true" ng-drag-data="message" data-allow-transform="true">
                   <div class="avatar">
                     <img src="img/avatar-{{message.direction}}.jpg" alt="{{message.username}}">
                   </div>
