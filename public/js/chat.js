@@ -9,7 +9,7 @@ const emojiList = {
     ':ning_what:': 'ning_what.jpg',
     ':sorry:': 'sorry.jpg',
     ':rhine:': 'rhine.gif',
-    ':gay:': 'seven_laugh.png',
+    ':gay:': 'gay.png',
     ':edward_scary:': 'edward_scary.png',
     ':edward_trash:': 'edward_trash.png',
     ':miao:': 'miao.jpg',
