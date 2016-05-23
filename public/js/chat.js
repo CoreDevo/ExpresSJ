@@ -60,7 +60,7 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         console.log(godsList);
         let gods;
         $scope.userlist.length = 0;
-        for (const num in godsList) {
+        for (let num in godsList) {
             gods = godsList[num];
             $scope.userlist.push({
               username:gods,
@@ -148,15 +148,15 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 // }
 
 function parseRoomname(rawRoomname) {
-    const roomname = rawRoomname.trim().split(' ').join('');
+    let roomname = rawRoomname.trim().split(' ').join('');
     return roomname;
 }
 
 function parseEmoji(message){
     let parsedMessage = message;
-    for (const key in emojiList) {
+    for (let key in emojiList) {
         if (emojiList.hasOwnProperty(key)) {
-            parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
+            // parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
         }
     }
 
@@ -168,9 +168,9 @@ function processImageSpan(key) {
 }
 
 function parseCookies(rawCookies) {
-    const cookies = {};
+    let cookies = {};
     rawCookies.split(';').forEach(element => {
-        const pair = element.split('=');
+        let pair = element.split('=');
         cookies[pair[0].trim()] = pair[1].trim();
     });
     return cookies;
@@ -182,3 +182,4 @@ function parseCookies(rawCookies) {
 //     });
 //     return encodedMsg;
 // }
+
