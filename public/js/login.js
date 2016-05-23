@@ -2,7 +2,7 @@ $(document).ready( function() {
     deleteAllCookies();
 
     var path = 'http://' + $(location).attr('host');
-    $('#login-public').click( function() {
+    $("#login-public").click( function() {
       var username = $("#username").val();
       // var password = $("#password").val();
       verifyUsername();
@@ -17,7 +17,7 @@ $(document).ready( function() {
         return false; // to stop link
     });
 
-    $('#create-accessCode').click( function() {
+    $("#create-accessCode").click( function() {
       var username = $("#username").val();
       // var password = $("#password").val();
       verifyUsername();
@@ -27,7 +27,7 @@ $(document).ready( function() {
             data: {name: username},
             success: function(data) {
                 $("#username").val(username);
-                $('#accessCode').val(data.accessCode);
+                $("#accessCode").val(data.accessCode);
             }
         });
         return false; // to stop link
