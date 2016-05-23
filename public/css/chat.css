@@ -16,7 +16,7 @@ body{
     margin-top: 30px;
 }
 .chat-body {
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 157px);
 }
 .dnd-section{
     min-height: calc(100vh - 28px);
