@@ -1,9 +1,5 @@
 //public chat
-<<<<<<< HEAD
 const esj = angular.module('esj', ['ngDraggable']);
-=======
-const esj = angular.module('esj', []);
->>>>>>> CoreDevo/master
 const emojiList = {
     ':pd_worth:': 'pd_worth.jpg',
     ':kappa:': 'kappa.jpg',
