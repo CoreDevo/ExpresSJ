@@ -22,8 +22,8 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
     const socket = io.connect();
     const cachedUsername = document.cookie;
     const slicedUsername = parseCookies(cachedUsername)["userID"];
-    $scope.messages=[];
-    $scope.userlist=[];
+    $scope.messages = [];
+    $scope.userlist = [];
     $scope.topRoomname = 'Lobby';
 
     //DEBUGGING:
