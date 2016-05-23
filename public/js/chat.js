@@ -67,11 +67,7 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         console.log(godsList);
         let gods;
         $scope.userlist.length = 0;
-<<<<<<< HEAD
         for (let num in godsList) {
-=======
-        for (const num in godsList) {
->>>>>>> CoreDevo/master
             gods = godsList[num];
             $scope.userlist.push({
               username:gods,
@@ -181,21 +177,13 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 // }
 
 function parseRoomname(rawRoomname) {
-<<<<<<< HEAD
     let roomname = rawRoomname.trim().split(' ').join('');
-=======
-    const roomname = rawRoomname.trim().split(' ').join('');
->>>>>>> CoreDevo/master
     return roomname;
 }
 
 function parseEmoji(message){
     let parsedMessage = message;
-<<<<<<< HEAD
     for (let key in emojiList) {
-=======
-    for (const key in emojiList) {
->>>>>>> CoreDevo/master
         if (emojiList.hasOwnProperty(key)) {
             // parsedMessage = parsedMessage.split(key).join(processImageSpan(key));
         }
@@ -209,15 +197,9 @@ function processImageSpan(key) {
 }
 
 function parseCookies(rawCookies) {
-<<<<<<< HEAD
     let cookies = {};
     rawCookies.split(';').forEach(element => {
         let pair = element.split('=');
-=======
-    const cookies = {};
-    rawCookies.split(';').forEach(element => {
-        const pair = element.split('=');
->>>>>>> CoreDevo/master
         cookies[pair[0].trim()] = pair[1].trim();
     });
     return cookies;
