@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
     <script src="lib/ngDraggable.js"></script>
     <script src="lib/jquery-1.12.3.min.js"></script>
     <script src="lib/jquery.nicescroll.min.js"></script>
@@ -21,100 +23,95 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/chat.js"></script>
 </head>
-<body ng-controller="PublicChatCtrl as pcCtrl">
+<body ng-controller="PublicChatCtrl">
 <div class="content container-fluid bootstrap snippets">
-  <div class="row row-broken">
-    <div class="col-sm-3 visible-md-block visible-lg-block">
-      <div class="col-inside-lg decor-default chat" style="overflow: scroll; outline: none;" tabindex="5000">
-        <div class="online-gods">Online Gods</div>
-        <div id="chat-users" class="chat-users" ng-model="onlineUserList">
-            <!-- online user list will be shown here -->
-            <div ng-repeat="user in userlist">
-              <div class="user">
-                  <div class="avatar">
-                    <img src="img/userLIstAvatar.png" alt="{{user.username}}">
-                  </div>
-                  <div class="name">{{user.username}}</div>
-                  <div class="user-description">{{user.description}}</div>
-              </div>
+    <div class="row row-broken">
+        <div class="col-sm-3 visible-md-block visible-lg-block">
+            <div class="col-inside-lg decor-default chat" style="overflow: scroll; outline: none;" tabindex="5000">
+                <div class="online-gods">Online Gods</div>
+                <div id="chat-users" class="chat-users" ng-model="onlineUserList">
+                    <!-- online user list will be shown here -->
+                    <div ng-repeat="user in userlist">
+                        <div class="user">
+                            <div class="avatar">
+                                <img src="img/userLIstAvatar.png" alt="{{user.username}}">
+                            </div>
+                            <div class="name">{{user.username}}</div>
+                            <div class="user-description">{{user.description}}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4 visible-md-block visible-lg-block">
-      <!-- drag and drop -->
-      <div class="col-inside-lg decor-default dnd-section" tabindex="5002" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-        <div class="dnd-title">Drag and Drop to here</div>
-          <div ng-repeat="item in pinnedItem">
-              <div class="answer {{item.direction}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" ng-center-anchor="{{centerAnchor}}">
-                  <div class="avatar">
-                      <img src="img/avatar-{{item.direction}}.jpg" alt="{{item.username}}">
-                  </div>
-                  <div class="name">{{item.username}}</div>
-                  <div class="text" ng-bind-html="renderEmoji(item.text)">{{item.text}}</div>
-                  <!--<div class="text">{{item.text}}</div>-->
-                  <div class="time">{{item.timestamp}}</div>
-              </div>
-          </div>
-      </div>
-    </div>
-    <div class="col-md-5 col-xs-12 pull-right chat" tabindex="5001">
-      <div class="col-inside-lg decor-default chat-section">
-        <div class="roomname" ng-model="topRoomname">#{{topRoomname}}</div>
-        <div id="chat-body" class="chat-body" style="overflow: scroll; outline: none;">
-          <div id="chat-box" class="chat-box">
-              <!-- messages will be shown here -->
-              <div ng-repeat="message in messages">
-                <div class="answer {{message.direction}}" ng-drag="true" ng-drag-data="message" data-allow-transform="true">
-                  <div class="avatar">
-                    <img src="img/avatar-{{message.direction}}.jpg" alt="{{message.username}}">
-                  </div>
-                  <div class="name">{{message.username}}</div>
-                  <div class="text" ng-bind-html="renderEmoji(message.text)">{{message.text}}</div>
-                  <div class="time">{{parseTimestamp(message.timestamp)}}</div>
+        <div class="col-md-4 visible-md-block visible-lg-block">
+            <!-- drag and drop -->
+            <div class="col-inside-lg decor-default dnd-section" tabindex="5002" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+                <div class="dnd-title">Drag and Drop to here</div>
+                <div ng-repeat="item in pinnedItem">
+                    <div class="answer {{item.direction}}" ng-drag="true" ng-drag-data="item" ng-drag-success="onDragSuccess($data,$event)" ng-center-anchor="{{centerAnchor}}">
+                        <div class="avatar">
+                            <img src="img/avatar-{{item.direction}}.jpg" alt="{{item.username}}">
+                        </div>
+                        <div class="name">{{item.username}}</div>
+                        <div class="text" ng-bind-html="renderEmoji(item.text)">{{item.text}}</div>
+                        <!--<div class="text">{{item.text}}</div>-->
+                        <div class="time">{{item.timestamp}}</div>
+                    </div>
                 </div>
-              </div>
-          </div>
+            </div>
         </div>
-        <form id="messageForm" ng-submit="sendMessage()" class="row answer-add">
-            <div class="input-group">
-                <input type="text" id="message" ng-model="messageText" class="form-control" placeholder="Write a message here" autocomplete="off">
-                <span class="input-group-addon" data-toggle="modal" data-target="#videoShare">
+        <div class="col-md-5 col-xs-12 pull-right chat" tabindex="5001">
+            <div class="col-inside-lg decor-default chat-section">
+                <div class="roomname" ng-model="topRoomname">#{{topRoomname}}</div>
+                <div id="chat-body" class="chat-body" style="overflow: scroll; outline: none;">
+                    <div id="chat-box" class="chat-box">
+                        <!-- messages will be shown here -->
+                        <div ng-repeat="message in messages">
+                            <div class="answer {{message.direction}}" ng-drag="true" ng-drag-data="message" data-allow-transform="true">
+                                <div class="avatar">
+                                    <img src="img/avatar-{{message.direction}}.jpg" alt="{{message.username}}">
+                                </div>
+                                <div class="name">{{message.username}}</div>
+                                <div class="text" ng-bind-html="renderEmoji(message.text)">{{message.text}}</div>
+                                <div class="time">{{parseTimestamp(message.timestamp)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="messageForm" ng-submit="sendMessage()" class="row answer-add">
+                    <div class="input-group">
+                        <input type="text" id="message" ng-model="messageText" class="form-control" placeholder="Write a message here" autocomplete="off">
+                <span class="input-group-addon" ng-click="showVideoModal('gg.gg')">
                     <span class="glyphicon glyphicon-plus"></span>
                 </span>
+                    </div>
+                </form>
             </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <form class="answer-add" ng-submit="changeRoom()" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
-      <label for="room">Room:</label>
-      <input type="text" id="room" ng-model="roomname" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
-      <input type="submit" class="btn btn-primary enter-room-button" value="Enter Room" autocomplete="off">
-  </form>
-  <!-- modal -->
-  <div id="videoShare" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Share Video</h4>
-              </div>
-              <form name="videoShare" ng-submit="submitVideo()">
-                  <div class="modal-body">
-                      <label>Copy & Paste the video link to below </label>
-                      <input type="url" class="form-control" ng-model="videoShare.videoUrl" placeholder="url goes here">
-                  </div>
-                  <div class="modal-footer">
-                      <input type="submit" class="btn btn-default" data-dismiss="modal">
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
+    <form class="answer-add" ng-submit="changeRoom()" id="roomForm" style="margin-left: 50px; position: fixed; bottom: 10px;display:table-cell; width:15%;">
+        <label for="room">Room:</label>
+        <input type="text" id="room" ng-model="roomname" class="form-control" placeholder="Enter a room name" autocomplete="off" style="margin: 10px 0 10px 0">
+        <input type="submit" class="btn btn-primary enter-room-button" value="Enter Room" autocomplete="off">
+    </form>
 </div>
+<script type="text/ng-template" id="videoModal.html">
+                <div class="modal-header">
+                    <h3>Enter</h3>
+                </div>
+                <form ng-submit="submit()">
+                    <div class="modal-body">
+                        <label>URL</label>
+                        <input type="url" ng-model="link" />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                        <input type="submit" class="btn primary-btn" ng-click="submit()" value="Submit" />
+                    </div>
+                </form>
+</script>
 <script type="text/javascript">
-	$(function() {
+    $(function() {
         $(".chat").niceScroll();
     })
 </script>

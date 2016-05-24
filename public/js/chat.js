@@ -1,6 +1,6 @@
 //public chat
 "use strict";
-const esj = angular.module('esj', ['ngDraggable']);
+const esj = angular.module('esj', ['ngDraggable', 'ui.bootstrap', 'ngAnimate']);
 const emojiList = {
     ':pd_worth:': 'pd_worth.jpg',
     ':kappa:': 'kappa.jpg',
@@ -19,7 +19,22 @@ const emojiList = {
 
 };
 let roomname = 'lobby';
-esj.controller('PublicChatCtrl', ($scope, $sce) => {
+
+esj.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, $log, link) {
+    $log.log(link);
+    $scope.link = link;
+    $scope.submit = function () {
+        $log.log(link);
+        $log.log($scope.link);
+        $uibModalInstance.close($scope.link);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+esj.controller('PublicChatCtrl', ($scope, $sce, $uibModal, $log) => {
     const socket = io.connect();
     const cachedUsername = document.cookie;
     const slicedUsername = parseCookies(cachedUsername)["userID"];
@@ -44,6 +59,29 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 
     socket.emit('first connect', roomname, cachedUsername);
 
+    $scope.animationsEnabled = true;
+    $scope.showVideoModal = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'videoModal.html',
+            animation: $scope.animationsEnabled,
+            controller: 'ModalInstanceCtrl',
+            resolve: {
+                link: function () {
+                    $log.log($scope.link);
+                    return $scope.link;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (link) {
+            $log.log(link)
+            $log.log($scope.link);
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+
+    };
+
     $scope.changeRoom = () => {
         roomname = $scope.roomname;
         if(roomname) {
@@ -53,12 +91,13 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         }
     };
 
-    $scope.submitVideo = () => {
-        url = $scope.videoUrl;
-        if(url){
-            alert(url);
-        }
-    }
+    // $scope.submitVideo = () => {
+    //     url = $scope.videoUrl;
+    //     if(url){
+    //         alert(url);
+    //     }
+    // }
+
 
     $scope.sendMessage = () => {
         if($scope.messageText == undefined || $scope.messageText.trim() == "") {
@@ -224,3 +263,5 @@ function parseCookies(rawCookies) {
 //     });
 //     return encodedMsg;
 // }
+
+
