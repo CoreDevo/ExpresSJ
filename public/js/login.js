@@ -4,18 +4,20 @@ $(document).ready( () => {
 
     const path = `http://${$(location).attr('host')}`;
     $("#login-public").click( () => {
-      const username = $("#username").val();
+      let username = $("#username").val();
       // var password = $("#password").val();
-      verifyUsername();
-        $.ajax({
-            type: 'POST',
-            url: `${path}/login`,
-            data: {name: username},
-            success(content) {
-                window.location.href = `${path}/chat`;
-            }
-        });
-        return false; // to stop link
+      if(verifyUsername(username)) {
+          $.ajax({
+              type: 'POST',
+              url: `${path}/login`,
+              data: {name: username},
+              success(content) {
+                  window.location.href = `${path}/chat`;
+              }
+          });
+      } else {
+          return false; // to stop link
+      }
     });
 
     $("#create-accessCode").click( () => {
@@ -46,10 +48,12 @@ function deleteAllCookies() {
     }
 }
 
-function verifyUsername(){
+function verifyUsername(username){
     const regex = /[!@#\$%\^\&*\)\(+=.-]{1,}/g;
-      if (regex.test(username)){
-        alert('no special symbol allowed');
-        return;
-      }
+    if (regex.test(username) || username.trim() == ''){
+        alert('Please Enter a Valid Username');
+        return false;
+    } else {
+        return true;
+    }
 }

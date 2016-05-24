@@ -134,12 +134,8 @@ border-right-width: 12px;
     border: 18px solid transparent;
     border-bottom-width: 0;
 }
-.chat-body .answer.left .time, .dnd-section .answer.left .time {
-    padding-left: 12px;
-    color: #333333;
-}
-.chat-body .answer .time, .dnd-section .answer .time {
-    font-size: 16px;
+.chat-body .answer .time {
+    font-size: 12px;
     line-height: 36px;
     position: relative;
     padding-bottom: 1px;
@@ -169,10 +165,6 @@ right: -30px;
 border-left-color: #7266ba;
 border-left-width: 12px;
 }*/
-.chat-body .answer.right .time, .dnd-section .answer.right .time {
-    padding-right: 12px;
-    color: #333333;
-}
 
 /**************ADD FORM ***************/
 .chat-section .answer-add {
@@ -181,7 +173,7 @@ border-left-width: 12px;
     margin: 20px -20px -20px;
     padding: 15px 20px 15px 20px;
     /*send message bar color*/
-    background: #7266ba;
+    background: #819FF7;
 }
 .chat-section .answer-add input {
     border: none;
@@ -206,10 +198,7 @@ border-left-width: 12px;
     top: 50%;
     margin-top: -18px;
 }
-.chat-section .answer-add .answer-btn-send {
-    background: url("../img/icons/send.png") 50% 50% no-repeat;
-    right: 20px;
-}
+
 .chat input::-webkit-input-placeholder {
     color: #fff;
 }

@@ -52,7 +52,10 @@ var createSocket = function(server) {
 				mongo.getRecentMessage(roomname, function (succeed, msgs, err) {
 					if (succeed) {
 						msgs.forEach(function (singleMsg) {
-							socket.emit('new message', {msg: singleMsg.message, username: singleMsg.username});
+							socket.emit('new message',
+									{msg: singleMsg.message, 
+									username: singleMsg.username,
+									timestamp: singleMsg.time});
 						});
 					} else {
 						const error_msg = 'Failed to get recent history';
@@ -90,9 +93,17 @@ var createSocket = function(server) {
 
 		socket.on('send message', function (data, roomname) {
 			console.log('Msg: ' + data + ' - in room: ' + roomname + ' - by: ' + socket.user);
-			mongo.storeNewMessage(roomname, socket.user, data, function (succeed, err) {
+			var message = {
+				username: socket.user,
+				message: data,
+				time: +new Date()
+			};
+			mongo.storeNewMessage(roomname, message, function (succeed, err) {
 				if (succeed) {
-					io.to(roomname).emit('new message', {msg: parseMessage(data), username: socket.user});
+					io.to(roomname).emit('new message', 
+						{msg: parseMessage(data), 
+						username: message.username,
+						timestamp: message.time});
 				} else {
 					const error_msg = 'An error has occurred, your message was failed to send. 志己的生命-1s';
 					socket.emit('new message', {msg: error_msg, username: '长者'});

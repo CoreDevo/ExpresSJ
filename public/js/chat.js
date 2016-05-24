@@ -29,7 +29,16 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 
     $scope.pinnedItem = [];
     $scope.centerAnchor = true;
-
+    $scope.parseTimestamp = function(timestamp) {
+        var time = moment(timestamp);
+        if(moment().diff(time) > 3600000) return time.calendar(null, {
+            sameDay: '[Today at] LT',
+            lastDay: '[Yesterday at] LT',
+            lastWeek: 'ddd [at] LT',
+            sameElse: 'DD/MM/YYYY HH:mm'
+        });
+        else return time.fromNow();
+    };
     //DEBUGGING:
     // console.log(slicedUsername)
 
@@ -37,12 +46,19 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
 
     $scope.changeRoom = () => {
         roomname = $scope.roomname;
-        if(roomname != '') {
+        if(roomname) {
             socket.emit('enter room', roomname);
         } else {
             alert('Please enter a valid Room Name');
         }
     };
+
+    $scope.submitVideo = () => {
+        url = $scope.videoUrl;
+        if(url){
+            alert(url);
+        }
+    }
 
     $scope.sendMessage = () => {
         if($scope.messageText == undefined || $scope.messageText.trim() == "") {
@@ -89,8 +105,8 @@ esj.controller('PublicChatCtrl', ($scope, $sce) => {
         $scope.messages.push({
           username:decodeURIComponent(data.username),
           text:data.msg,
-          direction,
-          timestamp:"Just Now"
+          direction:direction,
+          timestamp:data.timestamp
         });
         $scope.$apply();
         //TODO: REMOVE JQUERY FUNCTIONS
